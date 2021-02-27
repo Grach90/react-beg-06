@@ -1,4 +1,7 @@
 import React from "react";
+import AddTask from "../AddTask/AddTask";
+import Task from "../Task/Task";
+import {Container, Row, Col} from "react-bootstrap";
 
 class ToDo extends React.Component{
     state = {
@@ -6,46 +9,33 @@ class ToDo extends React.Component{
         inputValue: ''
     }
 
-    handleChange = (event) => {
-
-        const {value} = event.target;
+    handleS = (value) => {
+        const tasks = [...this.state.tasks];
+        tasks.push(value);
         this.setState({
-            inputValue: value
+            tasks
         })
-    }
-
-    handleSubmit = (event) => {
-        const tsk = [...this.state.tasks]
-        tsk.push(this.state.inputValue);
-        this.setState({
-            tasks: tsk,
-            inputValue: ''
-        })
-       
     }
 
     render(){
         const Tasks = this.state.tasks.map((task, index) => {
-            return (
-                <p key={index}>{task}</p>
+            return (<Col key={index} xs={12} sm={6} md={4} lg={3}>
+                        <Task  task={task} />
+                    </Col>
             )
         })
         return(
-            <div className="ToDo">
-               <h1> ToDo Component </h1>
-               <div>
-                   <input 
-                   placeholder="Add Task" 
-                   type="text" 
-                   onChange={this.handleChange} 
-                   value={this.state.inputValue}
-                   />
-                   <button onClick={this.handleSubmit}>Add Task</button>
-               </div>
-               <div className="tasks">
+            <Container>
+                 <Row>
+                    <h1> ToDo Component </h1>
+                 </Row>
+                 <Row>   
+                    <AddTask handleS={this.handleS} />
+                 </Row>
+                 <Row className="mt-3">
                     {Tasks}
-               </div>
-            </div>
+                 </Row>
+            </Container>
         )
     }
 }

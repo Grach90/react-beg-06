@@ -47,3 +47,23 @@ code {
 .A {
     text-align: center;
 }
+
+.task {
+    border: black solid 1px;
+    background-color: rgba(18, 144, 223, 0.5);
+    padding: 15px 30px;
+}
+
+.block {
+    display: flex;
+    justify-content: space-between;
+    background-color: gainsboro;
+    height: 900px;
+}
+
+.block div {
+    width: 300px;
+    height: 800px;
+    background-color: brown;
+    margin: 5px;
+}
