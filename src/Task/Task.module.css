@@ -1,7 +1,12 @@
 .task {
     border: 10px solid rgb(100, 5, 104);
-    padding: 20px 35px;
     background-color: rgb(175, 116, 214);
     margin: 4px;
     color: white;
+    text-align: center;
+}
+
+.checkbox {
+    display: flex;
+    justify-content: flex-end;
 }

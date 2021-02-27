@@ -32,7 +32,7 @@ class AddTask extends React.Component{
                 <Row>
                 <Form.Control placeholder="Task Name" 
                    onKeyPress={(e) => e.key == "Enter" ? this.handleSubmit() : ""}
-                   placeholder="Add Task" 
+                   placeholder="Task Name" 
                    type="text" 
                    onChange={this.handleChange} 
                    value={this.state.inputValue}
