@@ -26,18 +26,22 @@ class AddTask extends React.Component{
     render(){
         return (
             <Container>
-                <Row>
-                  <h1>AddTask Component</h1>
-                </Row>
-                <Row>
-                <Form.Control placeholder="Task Name" 
-                   onKeyPress={(e) => e.key == "Enter" ? this.handleSubmit() : ""}
-                   placeholder="Task Name" 
-                   type="text" 
-                   onChange={this.handleChange} 
-                   value={this.state.inputValue}
-                   /> 
-                   <Button className={style.button} onClick={this.handleSubmit}>Add Task</Button> 
+                <Row className="flex-nowrap mt-5">
+                    <Form.Control 
+                        placeholder="Task Name" 
+                        onKeyPress={(e) => e.key == "Enter" ? this.handleSubmit() : ""}
+                        placeholder="Task Name" 
+                        type="text" 
+                        onChange={this.handleChange} 
+                        value={this.state.inputValue}
+                        disabled={this.props.checkSelectTasks ? true : false}
+                    /> 
+                    <Button 
+                        className={style.button} 
+                        onClick={this.handleSubmit} 
+                        disabled={this.props.checkSelectTasks ? true : false}
+                        >Add Task
+                    </Button> 
                 </Row>
                </Container>
         )

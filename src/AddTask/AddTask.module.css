@@ -9,4 +9,6 @@
 
 .button {
     background-color: rgb(100, 5, 104);
+    width: 100px;
+    margin-left: 10px;
 }
