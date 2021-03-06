@@ -5,7 +5,7 @@ import {Container, Row, Col, Button} from "react-bootstrap";
 import rendom from "../helpers/Rendom";
 
 
-class ToDo extends React.Component{
+class ToDo extends React.PureComponent{
     state = {
         tasks: [
              {title: "Task 1", _id: rendom()},
@@ -15,7 +15,8 @@ class ToDo extends React.Component{
         inputValue: '',
         selectedTasks: new Set(),
         checkSelectTasks:"",
-        deletedTasks: new Set()
+        checkButton: true,
+
     }
     handleS = (value) => {
         const tasks = [...this.state.tasks]; 
@@ -55,9 +56,29 @@ class ToDo extends React.Component{
             checkSelectTasks,
         })
     }
+    checkAll = () => {
+        let {checkButton} = this.state;
+        let selectedTasks = new Set(this.state.selectedTasks);
+        let checkSelectTasks = this.state.checkSelectTasks;
+        if(checkButton){
+            selectedTasks.clear();
+            this.state.tasks.forEach(task => {
+                selectedTasks.add(task._id);
+            })
+            checkSelectTasks = true;
+        }else {
+            selectedTasks.clear();
+            checkSelectTasks = false;
+        }
+        checkButton = !checkButton;
+        this.setState({
+            checkButton,
+            selectedTasks,
+            checkSelectTasks
+        });
+    }
   
     render(){
-        console.log("ToDo Render");
         const Tasks = this.state.tasks.map((task, index) => {
             return (<Col key={task._id} xs={12} sm={6} md={4} lg={3}>
                         <Task  task={task.title} 
@@ -70,6 +91,14 @@ class ToDo extends React.Component{
                     </Col>
             )
         })
+        
+        let nameButton;
+        if(this.state.checkButton)
+        nameButton = "checkAll"
+        else 
+        nameButton = "Remove checked";
+        if(this.state.tasks.length === this.state.selectedTasks.size)
+        nameButton = "Remove checked";
         return(
             <Container>
                  <Row>   
@@ -83,10 +112,19 @@ class ToDo extends React.Component{
                     onClick={this.deleteSelectedTasks} 
                     variant="danger"
                     disabled={this.state.checkSelectTasks ? false : true}
-                    >Delete Tasks</Button>
+                    >Delete Tasks
+                    </Button>
+                    <Button
+                    className="ml-5"
+                    variant="primary"
+                    onClick={this.checkAll}
+                    >
+                    {this.state.checkButton ? "All Check" : "Remove Checked"}
+                    </Button>
                  </Row>
             </Container>
         )
+        
     }
 }
 

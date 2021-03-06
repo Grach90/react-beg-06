@@ -39,7 +39,7 @@ class AddTask extends React.Component{
                     <Button 
                         className={style.button} 
                         onClick={this.handleSubmit} 
-                        disabled={this.props.checkSelectTasks ? true : false}
+                        disabled={this.props.checkSelectTasks || !this.state.inputValue}
                         >Add Task
                     </Button> 
                 </Row>
