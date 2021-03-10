@@ -50,10 +50,9 @@ class ToDo extends React.PureComponent{
         let selectedTasks = new Set(this.state.selectedTasks);
         let tasks = [...this.state.tasks];
         tasks = tasks.filter(task => !selectedTasks.has(task._id));
-        let checkSelectTasks = false;
         this.setState({
             tasks,
-            checkSelectTasks,
+            checkSelectTasks: false
         })
     }
     checkAll = () => {
@@ -79,7 +78,7 @@ class ToDo extends React.PureComponent{
     }
   
     render(){
-        const Tasks = this.state.tasks.map((task, index) => {
+        const Tasks = this.state.tasks.map(task => {
             return (<Col key={task._id} xs={12} sm={6} md={4} lg={3}>
                         <Task  task={task.title} 
                         removeTask={this.removeTask} 
@@ -88,17 +87,9 @@ class ToDo extends React.PureComponent{
                         checkSelectTasks={this.state.checkSelectTasks}
                         selectedTasks={this.state.selectedTasks}
                          />
-                    </Col>
+                    </Col>            
             )
-        })
-        
-        let nameButton;
-        if(this.state.checkButton)
-        nameButton = "checkAll"
-        else 
-        nameButton = "Remove checked";
-        if(this.state.tasks.length === this.state.selectedTasks.size)
-        nameButton = "Remove checked";
+        });    
         return(
             <Container>
                  <Row>   
@@ -119,12 +110,11 @@ class ToDo extends React.PureComponent{
                     variant="primary"
                     onClick={this.checkAll}
                     >
-                    {this.state.checkButton ? "All Check" : "Remove Checked"}
+                    {this.state.selectedTasks.size === this.state.tasks.length ? "Remove Checked" : "All Check"}
                     </Button>
                  </Row>
             </Container>
-        )
-        
+        ); 
     }
 }
 
