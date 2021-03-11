@@ -1,37 +1,37 @@
-import style from "../Task/Task.module.css";
+import {Container, Row, Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import {Button} from "react-bootstrap";
-import { memo } from "react";
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
+import style from "./Task.module.css";
 
-
-
- function Task({
-     task, 
-     removeTask, 
-     id,
-     selectTask,
-     checkSelectTasks,
-     selectedTasks
-    })
-    {
-    return(
-        <div className={selectedTasks.has(id) ? style.active : style.task}>
-            <div className={style.checkbox}>
+function Task({task, removeTask, handleMarkedTasks, cheked, isEmptyMarkedTasks}){
+    
+    
+    function handleRemoveTask(){
+        removeTask(task._id);
+    }
+    return (
+        <Container className={style.container}>
+            <Row>
                 <input 
-                onChange={() => selectTask(id)} 
                 type="checkbox" 
-                checked={selectedTasks.has(id)}
+                onChange={() => handleMarkedTasks(task._id)} 
+                checked={cheked}
+                
                 />
-            </div>
-            {task}
-            <div className="mt-3">
-                <Button onClick={() => removeTask(true, id)} disabled={checkSelectTasks}> 
-                <FontAwesomeIcon icon={faTrash} /> 
+            </Row>
+            <Row className="justify-content-center mb-1">
+                {task.name}
+            </Row>
+            <Row className="justify-content-center">
+                <Button disabled= {isEmptyMarkedTasks} onClick={handleRemoveTask} variant="primary">
+                    <FontAwesomeIcon icon={faTrash} />
                 </Button>
-            </div>
-        </div>
+                <Button disabled= {isEmptyMarkedTasks} variant="danger" className="ml-3">
+                    <FontAwesomeIcon icon={faEdit} />
+                </Button>
+            </Row>
+        </Container>
     )
 }
 
-export default memo(Task);
+export default Task;

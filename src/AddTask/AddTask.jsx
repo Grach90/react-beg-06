@@ -1,51 +1,51 @@
 import React from "react";
-import { Container, Row, Form, Button } from "react-bootstrap";
-import style from "../AddTask/AddTask.module.css";
+import { Form, Button, InputGroup } from "react-bootstrap";
 
-class AddTask extends React.Component{
-    state ={
-        inputValue:''
-    }
-    handleChange = (event) => {
+class AddTasks extends React.PureComponent {
+    state = {
+        inputValue: ""
+    };
 
-        const {value} = event.target;
+    handleChange = (e) => {
+        let inputValue = e.target.value;
         this.setState({
-            inputValue: value
+            inputValue
         })
-    }
-    handleSubmit = () => {
-        if(!this.state.inputValue)
+    };
+    passValue = () => {
+        let {inputValue} = this.state;
+        if(inputValue === "")
         return;
-        const {handleS} = this.props;
-        handleS(this.state.inputValue);
+        this.props.getValueAddTask(inputValue);
+        inputValue= "";
         this.setState({
-            inputValue: ''
+            inputValue
         })
-    }
+    };
     
-    render(){
+    render() {
+        const {isEmptyMarkedTasks} = this.props;
         return (
-            <Container>
-                <Row className="flex-nowrap mt-5">
+            <div>
+                <InputGroup className="mt-5 mb-5">
                     <Form.Control 
-                        placeholder="Task Name" 
-                        onKeyPress={(e) => e.key == "Enter" ? this.handleSubmit() : ""}
-                        placeholder="Task Name" 
-                        type="text" 
-                        onChange={this.handleChange} 
-                        value={this.state.inputValue}
-                        disabled={this.props.checkSelectTasks ? true : false}
-                    /> 
+                    type="text" 
+                    placeholder="Task Name"
+                    onChange={this.handleChange}
+                    value= {this.state.inputValue}
+                    disabled={isEmptyMarkedTasks}
+                    />
                     <Button 
-                        className={style.button} 
-                        onClick={this.handleSubmit} 
-                        disabled={this.props.checkSelectTasks || !this.state.inputValue}
-                        >Add Task
-                    </Button> 
-                </Row>
-               </Container>
+                    className="ml-3"
+                    onClick={this.passValue}
+                    disabled={isEmptyMarkedTasks}
+                    >
+                    Add
+                    </Button>
+                </InputGroup>
+            </div>
         )
     }
 }
 
-export default AddTask;
+export default AddTasks;

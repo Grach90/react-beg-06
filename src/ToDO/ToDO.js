@@ -1,120 +1,131 @@
 import React from "react";
-import AddTask from "../AddTask/AddTask";
 import Task from "../Task/Task";
+import AddTask from "../AddTask/AddTask";
+import random from "../helpers/Rendom";
 import {Container, Row, Col, Button} from "react-bootstrap";
-import rendom from "../helpers/Rendom";
 
 
-class ToDo extends React.PureComponent{
+class ToDo extends React.Component {
     state = {
         tasks: [
-             {title: "Task 1", _id: rendom()},
-             {title: "Task 2", _id: rendom()},
-             {title: "Task 3", _id: rendom()}
+            {
+                name: "Task 1",
+                _id: random()
+            },
+            {
+                name: "Task 2",
+                _id: random()
+            },
+            {
+                name: "Task 3",
+                _id: random()
+            }
         ],
-        inputValue: '',
-        selectedTasks: new Set(),
-        checkSelectTasks:"",
-        checkButton: true,
+        markedTasks: new Set(),
+        checkMarkedTask: true,
+        isEmptyMarkedTasks: false,
+        isEmptyTasks: false
+    }
 
-    }
-    handleS = (value) => {
-        const tasks = [...this.state.tasks]; 
-        const obj = {title: value, _id: rendom()};
-        tasks.push(obj);
-        this.setState({
-            tasks
-        }) 
-    }
-    removeTask = (value, id) => {
-        if(value){
-        const tasks = this.state.tasks.filter((title) => title._id !== id);
+    getValueAddTask = (inputValue) => {
+            let {tasks, isEmptyTasks} = this.state; 
+            tasks.push({name: inputValue, _id: random()});
+            isEmptyTasks = false;
+            this.setState({
+                tasks,
+                isEmptyTasks
+            });
+    };
+
+    removeTask = (_id) => {
+        let {tasks, isEmptyTasks} = this.state;
+        tasks = tasks.filter(task => task._id !== _id);
+        if(tasks.length === 0)
+        isEmptyTasks = true;
         this.setState({
             tasks,
+            isEmptyTasks
         })
-      }
     }
-    selectTask = (id) => {
-        let selectedTasks = new Set(this.state.selectedTasks);
-        if(!selectedTasks.has(id)) 
-        selectedTasks.add(id);
+    removeMarkedTasks = () => {
+        const markedTasks = new Set(this.state.markedTasks);
+        let {tasks, isEmptyTasks, isEmptyMarkedTasks} = this.state;
+
+        tasks = tasks.filter(task => !markedTasks.has(task._id));
+        if(tasks.length === 0)
+        isEmptyTasks = true;
+        isEmptyMarkedTasks = false;
+        this.setState({
+            tasks,
+            markedTasks: new Set(),
+            isEmptyTasks,
+            isEmptyMarkedTasks
+        })
+    }
+    handleMarkedTasks = (_id) => {
+        const markedTasks = new Set(this.state.markedTasks);
+        let {isEmptyMarkedTasks} = this.state;
+        if(markedTasks.has(_id))
+        markedTasks.delete(_id);
         else
-        selectedTasks.delete(id);
-        let checkSelectTasks = !!selectedTasks.size ? true : false;
+        markedTasks.add(_id);
+        isEmptyMarkedTasks = !!markedTasks.size;
         this.setState({
-            selectedTasks,
-            checkSelectTasks
+            markedTasks,
+            isEmptyMarkedTasks
         })
     }
-    deleteSelectedTasks = () => {
-        let selectedTasks = new Set(this.state.selectedTasks);
-        let tasks = [...this.state.tasks];
-        tasks = tasks.filter(task => !selectedTasks.has(task._id));
+    handleAllMark = () => {
+        let {tasks, checkMarkedTask, isEmptyMarkedTasks} = this.state;
+        let markedTasks = new Set(this.state.markedTasks);
+
+        if(checkMarkedTask){
+            tasks.forEach(task => markedTasks.add(task._id));
+            checkMarkedTask = !checkMarkedTask;
+        }else{
+            markedTasks.clear();
+            checkMarkedTask = !checkMarkedTask;
+        } 
+        isEmptyMarkedTasks = !!markedTasks.size;
         this.setState({
-            tasks,
-            checkSelectTasks: false
-        })
+            markedTasks,
+            checkMarkedTask,
+            isEmptyMarkedTasks
+        })   
     }
-    checkAll = () => {
-        let {checkButton} = this.state;
-        let selectedTasks = new Set(this.state.selectedTasks);
-        let checkSelectTasks = this.state.checkSelectTasks;
-        if(checkButton){
-            selectedTasks.clear();
-            this.state.tasks.forEach(task => {
-                selectedTasks.add(task._id);
-            })
-            checkSelectTasks = true;
-        }else {
-            selectedTasks.clear();
-            checkSelectTasks = false;
-        }
-        checkButton = !checkButton;
-        this.setState({
-            checkButton,
-            selectedTasks,
-            checkSelectTasks
-        });
-    }
-  
-    render(){
-        const Tasks = this.state.tasks.map(task => {
-            return (<Col key={task._id} xs={12} sm={6} md={4} lg={3}>
-                        <Task  task={task.title} 
-                        removeTask={this.removeTask} 
-                        id={task._id} 
-                        selectTask={this.selectTask}
-                        checkSelectTasks={this.state.checkSelectTasks}
-                        selectedTasks={this.state.selectedTasks}
-                         />
-                    </Col>            
+    render() {
+        const tasks = this.state.tasks.map(task => {
+            return (
+                <Col key={task._id}>
+                    <Task 
+                    task={task}
+                    removeTask= {this.removeTask}
+                    handleMarkedTasks={this.handleMarkedTasks}
+                    cheked={!!this.state.markedTasks.has(task._id)}
+                    isEmptyMarkedTasks= {this.state.isEmptyMarkedTasks}
+                     />
+                </Col>
             )
-        });    
-        return(
+        })
+        return ( 
             <Container>
-                 <Row>   
-                    <AddTask handleS={this.handleS} checkSelectTasks={this.state.checkSelectTasks} />
-                 </Row>
-                 <Row className="mt-3">
-                    {Tasks.length !== 0 ? Tasks : <Col className=" d-flex justify-content-center">There are not Tasks</Col>} 
-                 </Row>
-                 <Row className="mt-5 d-flex justify-content-center">
-                    <Button 
-                    onClick={this.deleteSelectedTasks} 
-                    variant="danger"
-                    disabled={this.state.checkSelectTasks ? false : true}
-                    >Delete Tasks
+                <AddTask
+                getValueAddTask= {this.getValueAddTask} 
+                isEmptyMarkedTasks= {this.state.isEmptyMarkedTasks}
+                />
+                <Row className="justify-content-center">
+                {this.state.tasks.length !== 0 ? tasks : "There are not tasks"}
+                </Row>
+                <Row className="mt-5 justify-content-center">
+                    <Button disabled={this.state.isEmptyTasks} onClick={this.removeMarkedTasks} className="mr-5" variant="danger">
+                        Delete
                     </Button>
-                    <Button
-                    className="ml-5"
-                    variant="primary"
-                    onClick={this.checkAll}
-                    >
-                    {this.state.selectedTasks.size === this.state.tasks.length ? "Remove Checked" : "All Check"}
+                    <Button disabled={this.state.isEmptyTasks} onClick={this.handleAllMark} variant="primary">
+                        {this.state.tasks.length === this.state.markedTasks.size ? "Remove Checks" : "Check All"}
                     </Button>
-                 </Row>
+                </Row>
             </Container>
-        ); 
+        )
     }
 }
 
