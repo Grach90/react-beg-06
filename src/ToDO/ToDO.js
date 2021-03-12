@@ -22,61 +22,46 @@ class ToDo extends React.Component {
             }
         ],
         markedTasks: new Set(),
-        checkMarkedTask: true,
-        isEmptyMarkedTasks: false,
-        isEmptyTasks: false
+        checkMarkedTask: true
     }
 
     getValueAddTask = (inputValue) => {
-            let {tasks, isEmptyTasks} = this.state; 
+            let {tasks} = this.state; 
             tasks.push({name: inputValue, _id: random()});
-            isEmptyTasks = false;
             this.setState({
-                tasks,
-                isEmptyTasks
+                tasks
             });
     };
 
     removeTask = (_id) => {
-        let {tasks, isEmptyTasks} = this.state;
+        let {tasks} = this.state;
         tasks = tasks.filter(task => task._id !== _id);
-        if(tasks.length === 0)
-        isEmptyTasks = true;
         this.setState({
-            tasks,
-            isEmptyTasks
-        })
+            tasks
+        });
     }
     removeMarkedTasks = () => {
         const markedTasks = new Set(this.state.markedTasks);
-        let {tasks, isEmptyTasks, isEmptyMarkedTasks} = this.state;
+        let {tasks} = this.state;
 
         tasks = tasks.filter(task => !markedTasks.has(task._id));
-        if(tasks.length === 0)
-        isEmptyTasks = true;
-        isEmptyMarkedTasks = false;
         this.setState({
             tasks,
-            markedTasks: new Set(),
-            isEmptyTasks,
-            isEmptyMarkedTasks
+            markedTasks: new Set()
         })
     }
     handleMarkedTasks = (_id) => {
         const markedTasks = new Set(this.state.markedTasks);
-        let {isEmptyMarkedTasks} = this.state;
         if(markedTasks.has(_id))
         markedTasks.delete(_id);
         else
         markedTasks.add(_id);
-        isEmptyMarkedTasks = !!markedTasks.size;
         this.setState({
-            markedTasks,
-            isEmptyMarkedTasks
-        })
+            markedTasks
+        });
     }
     handleAllMark = () => {
-        let {tasks, checkMarkedTask, isEmptyMarkedTasks} = this.state;
+        let {tasks, checkMarkedTask} = this.state;
         let markedTasks = new Set(this.state.markedTasks);
 
         if(checkMarkedTask){
@@ -86,11 +71,9 @@ class ToDo extends React.Component {
             markedTasks.clear();
             checkMarkedTask = !checkMarkedTask;
         } 
-        isEmptyMarkedTasks = !!markedTasks.size;
         this.setState({
             markedTasks,
-            checkMarkedTask,
-            isEmptyMarkedTasks
+            checkMarkedTask
         })   
     }
     render() {
@@ -102,7 +85,7 @@ class ToDo extends React.Component {
                     removeTask= {this.removeTask}
                     handleMarkedTasks={this.handleMarkedTasks}
                     cheked={!!this.state.markedTasks.has(task._id)}
-                    isEmptyMarkedTasks= {this.state.isEmptyMarkedTasks}
+                    isEmptyMarkedTasks= {!!this.state.markedTasks.size}
                      />
                 </Col>
             )
@@ -111,16 +94,16 @@ class ToDo extends React.Component {
             <Container>
                 <AddTask
                 getValueAddTask= {this.getValueAddTask} 
-                isEmptyMarkedTasks= {this.state.isEmptyMarkedTasks}
+                isEmptyMarkedTasks= {!!this.state.markedTasks.size}
                 />
                 <Row className="justify-content-center">
                 {this.state.tasks.length !== 0 ? tasks : "There are not tasks"}
                 </Row>
                 <Row className="mt-5 justify-content-center">
-                    <Button disabled={this.state.isEmptyTasks} onClick={this.removeMarkedTasks} className="mr-5" variant="danger">
+                    <Button disabled={!this.state.tasks.length} onClick={this.removeMarkedTasks} className="mr-5" variant="danger">
                         Delete
                     </Button>
-                    <Button disabled={this.state.isEmptyTasks} onClick={this.handleAllMark} variant="primary">
+                    <Button disabled={!this.state.tasks.length} onClick={this.handleAllMark} variant="primary">
                         {this.state.tasks.length === this.state.markedTasks.size ? "Remove Checks" : "Check All"}
                     </Button>
                 </Row>

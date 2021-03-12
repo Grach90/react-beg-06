@@ -1,7 +1,9 @@
 import React from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
+import withScreenSizes from "../HOC/withScreenSizes";
+import PropTypes from 'prop-types';
 
-class AddTasks extends React.PureComponent {
+class AddTask extends React.PureComponent {
     state = {
         inputValue: ""
     };
@@ -34,6 +36,7 @@ class AddTasks extends React.PureComponent {
                     onChange={this.handleChange}
                     value= {this.state.inputValue}
                     disabled={isEmptyMarkedTasks}
+                    onKeyPress={({key}) => key === "Enter" ? this.passValue() : ""}
                     />
                     <Button 
                     className="ml-3"
@@ -42,10 +45,15 @@ class AddTasks extends React.PureComponent {
                     >
                     Add
                     </Button>
+                    <p>{this.props.width}</p>
                 </InputGroup>
             </div>
         )
     }
+};
+AddTask.propTypes = {
+    passValue: PropTypes.func, 
+    isEmptyMarkedTasks: PropTypes.bool,
+    inputValue: PropTypes.string
 }
-
-export default AddTasks;
+export default withScreenSizes(AddTask);
