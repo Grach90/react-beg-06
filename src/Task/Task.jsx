@@ -2,10 +2,17 @@ import {Container, Row, Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import style from "./Task.module.css";
+import PropTypes from "prop-types";
+import {memo} from "react";
 
-function Task({task, removeTask, handleMarkedTasks, cheked, isEmptyMarkedTasks}){
-    
-    
+function Task({
+    task, 
+    removeTask, 
+    handleMarkedTasks, 
+    cheked, 
+    isEmptyMarkedTasks
+})
+{
     function handleRemoveTask(){
         removeTask(task._id);
     }
@@ -20,7 +27,10 @@ function Task({task, removeTask, handleMarkedTasks, cheked, isEmptyMarkedTasks})
                 />
             </Row>
             <Row className="justify-content-center mb-1">
-                {task.name}
+                Title: {task.title}
+            </Row>
+            <Row className="justify-content-center mb-1">
+                Discription: {task.discription}
             </Row>
             <Row className="justify-content-center">
                 <Button disabled= {isEmptyMarkedTasks} onClick={handleRemoveTask} variant="primary">
@@ -33,5 +43,14 @@ function Task({task, removeTask, handleMarkedTasks, cheked, isEmptyMarkedTasks})
         </Container>
     )
 }
-
-export default Task;
+Task.prptype = {
+    task: PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired
+    }),
+    removeTask: PropTypes.func.isRequired,
+    handleMarkedTasks: PropTypes.func.isRequired,
+    cheked: PropTypes.bool.isRequired,
+    isEmptyMarkedTasks: PropTypes.bool.isRequired
+}
+export default memo(Task);

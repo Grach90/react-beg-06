@@ -12,3 +12,8 @@
     width: 100px;
     margin-left: 10px;
 }
+
+.textarea {
+    margin-bottom: 50px;
+    resize: none;
+}

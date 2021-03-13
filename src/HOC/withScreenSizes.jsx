@@ -16,9 +16,9 @@ const withScreenSizes = (Component) => {
           window.addEventListener("resize", this.handleResize);
         };
 
-        // componentWillUnmount(){
-        //   window.removeEventListener("resize", this.handleResize);
-        // };
+        componentWillUnmount(){
+          window.removeEventListener("resize", this.handleResize);
+        };
 
         render() {
           return <Component {...this.props} width={this.state.width} />
