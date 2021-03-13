@@ -28,7 +28,9 @@ class ToDo extends React.Component {
         markedTasks: new Set(),
         checkMarkedTask: true,
         isModalAddTask: true,
-        isConfirmModal: true
+        isConfirmModal: true,
+        isModalEditTask:true,
+        editTask:""
     }
 
     getValueAddTask = (title, discription) => {
@@ -91,9 +93,9 @@ class ToDo extends React.Component {
             isModalAddTask
         })
     }
-    handleCloseModal = (isModalAddTask) => {
+    handleCloseModal = (name) => {
         this.setState({
-            isModalAddTask
+            [name]: true
         })
     }
     handleOpenConfirmModal = () => {
@@ -108,8 +110,25 @@ class ToDo extends React.Component {
             isConfirmModal
         })
     }
+    handleOpenEditTaskModal = (editTask) => {
+        this.setState({
+            isModalEditTask: false,
+            editTask
+        })
+    }
+    handleEditTask = (editTask) => {
+        let index = this.state.tasks.findIndex((task) => task._id === editTask._id);
+        let tasks = [...this.state.tasks];
+        tasks[index] = editTask;
+        this.setState({
+            tasks,
+            isModalEditTask:true
+        })  
+    }
     render() {
-        let {isModalAddTask, isConfirmModal} = this.state;
+        console.log(this.state.tasks);
+        let {isModalAddTask, isConfirmModal, isModalEditTask} = this.state;
+        const isAddEditModal = (isModalEditTask===false || isModalAddTask===false) ? false : true;
         const tasks = this.state.tasks.map(task => {
             return (
                 <Col key={task._id}>
@@ -119,6 +138,7 @@ class ToDo extends React.Component {
                     handleMarkedTasks={this.handleMarkedTasks}
                     cheked={!!this.state.markedTasks.has(task._id)}
                     isEmptyMarkedTasks= {!!this.state.markedTasks.size}
+                    handleOpenEditTaskModal= {this.handleOpenEditTaskModal}
                      />
                 </Col>
             )
@@ -143,12 +163,15 @@ class ToDo extends React.Component {
                     <Button disabled={!this.state.tasks.length} onClick={this.handleAllMark} variant="primary">
                         {this.state.tasks.length === this.state.markedTasks.size ? "Remove Checks" : "Check All"}
                     </Button>
-                </Row>
-                {isModalAddTask || <ModalAddTask 
-                handleCloseModal= {this.handleCloseModal}
-                getValueAddTask= {this.getValueAddTask} 
-                isEmptyMarkedTasks= {!!this.state.markedTasks.size}
-                />}
+                    </Row>
+                    {isAddEditModal || <ModalAddTask 
+                        handleCloseModal= {this.handleCloseModal}
+                        getValueAddTask= {this.getValueAddTask} 
+                        isModalEditTask= {isModalEditTask}
+                        isModalAddTask= {isModalAddTask}
+                        editTask= {this.state.editTask}
+                        handleEditTask= {this.handleEditTask}
+                        />} 
                 {isConfirmModal || <ConfirmModl
                 removeMarkedTasks= {this.removeMarkedTasks}
                 handleCloseConfirmModal= {this.handleCloseConfirmModal}

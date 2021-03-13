@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import style from "./Task.module.css";
 import PropTypes from "prop-types";
-import {memo} from "react";
 
 function Task({
     task, 
     removeTask, 
     handleMarkedTasks, 
     cheked, 
-    isEmptyMarkedTasks
+    isEmptyMarkedTasks,
+    handleOpenEditTaskModal
 })
 {
     function handleRemoveTask(){
@@ -36,7 +36,7 @@ function Task({
                 <Button disabled= {isEmptyMarkedTasks} onClick={handleRemoveTask} variant="primary">
                     <FontAwesomeIcon icon={faTrash} />
                 </Button>
-                <Button disabled= {isEmptyMarkedTasks} variant="danger" className="ml-3">
+                <Button onClick= {() => handleOpenEditTaskModal(task)} disabled= {isEmptyMarkedTasks} variant="danger" className="ml-3">
                     <FontAwesomeIcon icon={faEdit} />
                 </Button>
             </Row>
@@ -46,6 +46,7 @@ function Task({
 Task.prptype = {
     task: PropTypes.shape({
         title: PropTypes.string.isRequired,
+        discription: PropTypes.string,
         _id: PropTypes.string.isRequired
     }),
     removeTask: PropTypes.func.isRequired,
@@ -53,4 +54,4 @@ Task.prptype = {
     cheked: PropTypes.bool.isRequired,
     isEmptyMarkedTasks: PropTypes.bool.isRequired
 }
-export default memo(Task);
+export default Task;
