@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import style from "./Task.module.css";
 import PropTypes from "prop-types";
+import {memo} from "react";
 
 function Task({
     task, 
@@ -30,7 +31,7 @@ function Task({
                 Title: {task.title}
             </Row>
             <Row className="justify-content-center mb-1">
-                Discription: {task.discription}
+                Discription: {task.description}
             </Row>
             <Row className="justify-content-center">
                 <Button disabled= {isEmptyMarkedTasks} onClick={handleRemoveTask} variant="primary">
@@ -43,7 +44,7 @@ function Task({
         </Container>
     )
 }
-Task.prptype = {
+Task.propTypes = {
     task: PropTypes.shape({
         title: PropTypes.string.isRequired,
         discription: PropTypes.string,
@@ -54,4 +55,4 @@ Task.prptype = {
     cheked: PropTypes.bool.isRequired,
     isEmptyMarkedTasks: PropTypes.bool.isRequired
 }
-export default Task;
+export default memo(Task);

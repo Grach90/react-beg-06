@@ -11,17 +11,17 @@ class ToDo extends React.Component {
         tasks: [
             {
                 title: "Task 1",
-                discription: "Task 1",
+                description: "Task 1",
                 _id: random()
             },
             {
                 title: "Task 2",
-                discription: "Task 2",
+                description: "Task 2",
                 _id: random()
             },
             {
                 title: "Task 3",
-                discription: "Task 3",
+                description: "Task 3",
                 _id: random()
             }
         ],
@@ -33,9 +33,9 @@ class ToDo extends React.Component {
         editTask:""
     }
 
-    getValueAddTask = (title, discription) => {
+    getValueAddTask = (title, description) => {
             let {tasks} = this.state; 
-            tasks.push({title: title, discription: discription, _id: random()});
+            tasks.push({title: title, description: description, _id: random()});
             this.setState({
                 tasks,
                 isModalAddTask: true
@@ -95,7 +95,8 @@ class ToDo extends React.Component {
     }
     handleCloseModal = (name) => {
         this.setState({
-            [name]: true
+            [name]: true,
+            editTask:""
         })
     }
     handleOpenConfirmModal = () => {
@@ -122,7 +123,8 @@ class ToDo extends React.Component {
         tasks[index] = editTask;
         this.setState({
             tasks,
-            isModalEditTask:true
+            isModalEditTask: true,
+            editTask:""
         })  
     }
     render() {
@@ -167,11 +169,9 @@ class ToDo extends React.Component {
                     {isAddEditModal || <ModalAddTask 
                         handleCloseModal= {this.handleCloseModal}
                         getValueAddTask= {this.getValueAddTask} 
-                        isModalEditTask= {isModalEditTask}
-                        isModalAddTask= {isModalAddTask}
                         editTask= {this.state.editTask}
                         handleEditTask= {this.handleEditTask}
-                        />} 
+                    />} 
                 {isConfirmModal || <ConfirmModl
                 removeMarkedTasks= {this.removeMarkedTasks}
                 handleCloseConfirmModal= {this.handleCloseConfirmModal}
