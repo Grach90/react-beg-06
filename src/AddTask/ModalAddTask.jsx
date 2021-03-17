@@ -2,6 +2,7 @@ import React, {createRef} from "react";
 import {Modal, Button, Form, InputGroup} from "react-bootstrap";
 import style from "./AddTask.module.css";
 import PropTypes from "prop-types";
+import DatePicker from "react-datepicker";
 
 class ModalAddTask extends React.PureComponent {
   constructor(props){
