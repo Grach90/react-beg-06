@@ -15,7 +15,7 @@ function Task({
 })
 {
     function handleRemoveTask(){
-        removeTask(task._id);
+        removeTask(task);
     }
     return (
         <Container className={style.container}>
@@ -24,7 +24,6 @@ function Task({
                 type="checkbox" 
                 onChange={() => handleMarkedTasks(task._id)} 
                 checked={cheked}
-                
                 />
             </Row>
             <Row className="justify-content-center mb-1">
@@ -32,6 +31,9 @@ function Task({
             </Row>
             <Row className="justify-content-center mb-1">
                 Discription: {task.description}
+            </Row>
+            <Row className="justify-content-center mb-1">
+                Date: {task.date.slice(0, 10)}
             </Row>
             <Row className="justify-content-center">
                 <Button disabled= {isEmptyMarkedTasks} onClick={handleRemoveTask} variant="primary">

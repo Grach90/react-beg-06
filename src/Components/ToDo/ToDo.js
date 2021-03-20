@@ -1,30 +1,14 @@
 import React from "react";
 import Task from "../Task/Task";
-import random from "../helpers/Rendom";
 import {Container, Row, Col, Button} from "react-bootstrap";
 import ModalAddTask from "../AddTask/ModalAddTask";
 import ConfirmModl from "../Confirm/ConfirmModal";
+import dateformator from "../../helpers/dateformator";
 
 
 class ToDo extends React.Component {
     state = {
-        tasks: [
-            {
-                title: "Task 1",
-                description: "Task 1",
-                _id: random()
-            },
-            {
-                title: "Task 2",
-                description: "Task 2",
-                _id: random()
-            },
-            {
-                title: "Task 3",
-                description: "Task 3",
-                _id: random()
-            }
-        ],
+        tasks: [],
         markedTasks: new Set(),
         checkMarkedTask: true,
         isModalAddTask: true,
@@ -32,33 +16,63 @@ class ToDo extends React.Component {
         isModalEditTask:true,
         editTask:""
     }
-
-    getValueAddTask = (title, description) => {
-            let {tasks} = this.state; 
-            tasks.push({title: title, description: description, _id: random()});
-            this.setState({
-                tasks,
-                isModalAddTask: true
-            });
+    
+    getValueAddTask = (task) => {
+        (async() => {
+            try {
+                task.date = dateformator(task.date);
+                let response = await fetch("http://localhost:3001/task", {
+                    method: "POST",
+                    body: JSON.stringify(task),
+                    headers: {
+                        "Content-Type":"application/json"
+                    }
+                })
+                let data = await response.json();
+                if(data.error) throw data.error;
+                let {tasks} = this.state; 
+                tasks.push(data);
+                this.setState({
+                    tasks,
+                    isModalAddTask: true
+                }); 
+            } catch(error){
+                console.log("Error", error);
+            }
+        })();  
     };
+    
+    
 
-    removeTask = (_id) => {
+    removeTask = (deleteTask) => {
+        fetch(`http://localhost:3001/task/${deleteTask._id}`, {method: "DELETE"});
         let {tasks} = this.state;
-        tasks = tasks.filter(task => task._id !== _id);
+        tasks = tasks.filter(task => task._id !== deleteTask._id);
         this.setState({
             tasks
         });
     }
     removeMarkedTasks = () => {
         const markedTasks = new Set(this.state.markedTasks);
-        let {tasks} = this.state;
-
-        tasks = tasks.filter(task => !markedTasks.has(task._id));
-        this.setState({
-            tasks,
-            markedTasks: new Set(),
-            isConfirmModal: true
+        fetch("http://localhost:3001/task", {
+            method: "PATCH",
+            body: JSON.stringify({tasks: Array.from(markedTasks)}),
+            headers: {
+                "Content-Type":"application/json"
+            }
         })
+        .then(response => response.json())
+        .then(data => {
+            if(data.error) throw data.error;
+            let {tasks} = this.state;
+            tasks = tasks.filter(task => !markedTasks.has(task._id));
+            this.setState({
+                tasks,
+                markedTasks: new Set(),
+                isConfirmModal: true
+            })
+        })
+        .catch(error => console.log("Error", error)); 
     }
     handleMarkedTasks = (_id) => {
         const markedTasks = new Set(this.state.markedTasks);
@@ -112,23 +126,45 @@ class ToDo extends React.Component {
         })
     }
     handleOpenEditTaskModal = (editTask) => {
+        editTask.date = new Date(editTask.date);
         this.setState({
             isModalEditTask: false,
             editTask
         })
     }
     handleEditTask = (editTask) => {
-        let index = this.state.tasks.findIndex((task) => task._id === editTask._id);
-        let tasks = [...this.state.tasks];
-        tasks[index] = editTask;
-        this.setState({
-            tasks,
-            isModalEditTask: true,
-            editTask:""
-        })  
+        editTask.date = dateformator(editTask.date);
+        fetch(`http://localhost:3001/task/${editTask._id}`, {
+            method: "PUT",
+            body: JSON.stringify(editTask),
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.error) throw data.error;
+            let index = this.state.tasks.findIndex((task) => task._id === editTask._id);
+            let tasks = [...this.state.tasks];
+            tasks[index] = data;
+            this.setState({
+                tasks,
+                isModalEditTask: true,
+                editTask:""
+            })
+        })
+        .catch(error => console.log("Error", error)); 
+    }
+    componentDidMount(){
+        fetch("http://localhost:3001/task")
+        .then(response => response.json())
+        .then(tasks => {
+            this.setState({
+                tasks
+            })
+        })
     }
     render() {
-        console.log(this.state.tasks);
         let {isModalAddTask, isConfirmModal, isModalEditTask} = this.state;
         const isAddEditModal = (isModalEditTask===false || isModalAddTask===false) ? false : true;
         const tasks = this.state.tasks.map(task => {

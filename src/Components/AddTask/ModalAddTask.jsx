@@ -4,6 +4,7 @@ import style from "./AddTask.module.css";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 
+
 class ModalAddTask extends React.PureComponent {
   constructor(props){
     super(props)
@@ -11,8 +12,15 @@ class ModalAddTask extends React.PureComponent {
     this.state = {
       title: "",
       description: "",
+      date: new Date(),
       ...this.props.editTask
     }
+  }
+
+  setStartDate = (date) => {
+    this.setState({
+      date
+    })
   }
 
   handleChange = (e) => {
@@ -25,7 +33,7 @@ class ModalAddTask extends React.PureComponent {
     const {title, description} = this.state;
     if(title === "" || description === "" )
     return;
-    this.props.getValueAddTask(title, description);
+    this.props.getValueAddTask(this.state);
   }
   componentDidMount(){
     this.inputRef.current.focus();
@@ -53,7 +61,6 @@ class ModalAddTask extends React.PureComponent {
               onKeyPress={({key}) => key === "Enter" ? this.passValue() : ""}
               ref={this.inputRef}
             />
-            
           </InputGroup>
           <InputGroup>
             <Form.Control
@@ -64,6 +71,9 @@ class ModalAddTask extends React.PureComponent {
               value= {this.state.description}
               onChange={this.handleChange}
             />
+          </InputGroup>
+          <InputGroup className="mt-3">
+            <DatePicker selected={this.state.date} onChange={this.setStartDate} />
           </InputGroup>
         </Modal.Body>
         <Modal.Footer>
@@ -86,11 +96,15 @@ class ModalAddTask extends React.PureComponent {
 ModalAddTask.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
   getValueAddTask: PropTypes.func.isRequired,
-  editTask: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    _id: PropTypes.string.isRequired
-  }),
+  editTask: PropTypes.oneOfType([
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+      _id: PropTypes.string,
+      date: PropTypes.object
+    }),
+    PropTypes.string
+  ]), 
   handleEditTask: PropTypes.func.isRequired
 }
 export default ModalAddTask;

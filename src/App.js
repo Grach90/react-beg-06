@@ -5,7 +5,7 @@
 // // import B from "./test/B"
 // import Counter from './test/Counter';
 // import Useer from "./test/Useer";
-import ToDo from "./ToDo/ToDo";
+import ToDo from "./Components/ToDo/ToDo.js";
 
 
 function App(){
