@@ -1,9 +1,11 @@
 import React from "react";
-import Task from "../Task/Task";
+import Task from "./Task/Task";
 import {Container, Row, Col, Button} from "react-bootstrap";
-import ModalAddTask from "../AddTask/ModalAddTask";
-import ConfirmModl from "../Confirm/ConfirmModal";
+import ModalAddTask from "./AddTask/ModalAddTask";
+import ConfirmModl from "./Confirm/ConfirmModal";
 import dateformator from "../../helpers/dateformator";
+
+
 
 
 class ToDo extends React.Component {

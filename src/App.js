@@ -1,18 +1,20 @@
-// import logo from './logo.svg';
-// import './App.css';
-// import Card from "./Components/Card"
-// import A from "./test/A"
-// // import B from "./test/B"
-// import Counter from './test/Counter';
-// import Useer from "./test/Useer";
-import ToDo from "./Components/ToDo/ToDo.js";
+import ToDo from "./Components/ToDo/ToDo";
+import Navbar from "./Components/Navbar/Navbar.jsx";
+import Contact from "./Components/Contact/Contact";
+import About from "./Components/About/About";
+import {Switch, Route, Redirect} from "react-router-dom";
 
 
 function App(){
     return(
         <div className="App">
-             <ToDo />
-             {/* <Useer /> */}
+            <Navbar />
+            <Switch>
+                <Route path="/" component={ToDo} exact={true} />
+                <Route path="/contact" component={Contact} exact={true} />
+                <Route path="/about" component={About} exact={true} />
+                <Redirect to="/" />
+            </Switch>
         </div>
     )
 }

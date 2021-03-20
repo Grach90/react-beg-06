@@ -1,0 +1,4 @@
+.activeNavLink {
+    border: 1px solid rgb(78, 113, 136);
+    background-color: rgba(66, 130, 172, 0.3);
+}
