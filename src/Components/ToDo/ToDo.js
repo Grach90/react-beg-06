@@ -4,6 +4,7 @@ import {Container, Row, Col, Button} from "react-bootstrap";
 import ModalAddTask from "./AddTask/ModalAddTask";
 import ConfirmModl from "./Confirm/ConfirmModal";
 import dateformator from "../../helpers/dateformator";
+import Spiner from '../Spiner/Spiner';
 
 
 
@@ -16,10 +17,12 @@ class ToDo extends React.Component {
         isModalAddTask: true,
         isConfirmModal: true,
         isModalEditTask:true,
-        editTask:""
+        editTask: null,
+        loading: false
     }
     
     getValueAddTask = (task) => {
+        this.setState({loading: true});
         (async() => {
             try {
                 task.date = dateformator(task.date);
@@ -40,21 +43,30 @@ class ToDo extends React.Component {
                 }); 
             } catch(error){
                 console.log("Error", error);
+            } finally {
+                this.setState({loading: false});
             }
         })();  
     };
-    
-    
 
     removeTask = (deleteTask) => {
-        fetch(`http://localhost:3001/task/${deleteTask._id}`, {method: "DELETE"});
-        let {tasks} = this.state;
-        tasks = tasks.filter(task => task._id !== deleteTask._id);
-        this.setState({
-            tasks
-        });
+        this.setState({loading: true});
+        fetch(`http://localhost:3001/task/${deleteTask._id}`, {method: "DELETE"})
+        .then(res => res.json())
+        .then(data => {
+            if(data.error) throw data.error;
+            let {tasks} = this.state;
+            tasks = tasks.filter(task => task._id !== deleteTask._id);
+            this.setState({
+                tasks,
+            });
+        })
+        .catch(error => console.log("Error", error))
+        .finally(() => this.setState({loading: false}));
     }
+    
     removeMarkedTasks = () => {
+        this.setState({loading: true});
         const markedTasks = new Set(this.state.markedTasks);
         fetch("http://localhost:3001/task", {
             method: "PATCH",
@@ -74,7 +86,8 @@ class ToDo extends React.Component {
                 isConfirmModal: true
             })
         })
-        .catch(error => console.log("Error", error)); 
+        .catch(error => console.log("Error", error))
+        .finally(() => this.setState({loading: false})); 
     }
     handleMarkedTasks = (_id) => {
         const markedTasks = new Set(this.state.markedTasks);
@@ -112,7 +125,7 @@ class ToDo extends React.Component {
     handleCloseModal = (name) => {
         this.setState({
             [name]: true,
-            editTask:""
+            editTask: null
         })
     }
     handleOpenConfirmModal = () => {
@@ -135,6 +148,7 @@ class ToDo extends React.Component {
         })
     }
     handleEditTask = (editTask) => {
+        this.setState({loading: true});
         editTask.date = dateformator(editTask.date);
         fetch(`http://localhost:3001/task/${editTask._id}`, {
             method: "PUT",
@@ -152,22 +166,29 @@ class ToDo extends React.Component {
             this.setState({
                 tasks,
                 isModalEditTask: true,
-                editTask:""
+                editTask:null
             })
         })
-        .catch(error => console.log("Error", error)); 
+        .catch(error => console.log("Error", error))
+        .finally(() => this.setState({loading: false}));
     }
+
     componentDidMount(){
+        this.setState({
+            loading: true
+          });
         fetch("http://localhost:3001/task")
         .then(response => response.json())
-        .then(tasks => {
-            this.setState({
-                tasks
-            })
+        .then(data => {
+            if(data.error) throw data.error;
+            this.setState({tasks: data});
         })
+        .catch(error => console.log("Error", error))
+        .finally(() => this.setState({loading: false}));
     }
+
     render() {
-        let {isModalAddTask, isConfirmModal, isModalEditTask} = this.state;
+        let {isModalAddTask, isConfirmModal, isModalEditTask, loading} = this.state;
         const isAddEditModal = (isModalEditTask===false || isModalAddTask===false) ? false : true;
         const tasks = this.state.tasks.map(task => {
             return (
@@ -204,6 +225,7 @@ class ToDo extends React.Component {
                         {this.state.tasks.length === this.state.markedTasks.size ? "Remove Checks" : "Check All"}
                     </Button>
                     </Row>
+                    {loading && <Spiner />}
                     {isAddEditModal || <ModalAddTask 
                         handleCloseModal= {this.handleCloseModal}
                         getValueAddTask= {this.getValueAddTask} 

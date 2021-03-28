@@ -1,15 +1,20 @@
 import { findByLabelText } from "@testing-library/react";
-let a;
-function foo(callback){
-    setTimeout(() => {
-        a = 5;
-        callback(a);
-    }, 2000);
-    
+
+
+function Acumlator(startValue){
+    this.value = startValue;
+    this.read = function(){
+        this.value = this.value + +prompt("number", 0);
+    }
+
+    this.print = function(){
+        console.log(this.value);
+    }
 }
 
-foo((a) => console.log(a));
-
+let obj = new Acumlator(1);
+obj.read();
+obj.print();
 
 function Useer() {
     

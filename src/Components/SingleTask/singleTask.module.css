@@ -1,0 +1,18 @@
+.singleTask {
+    width: 40%;
+    margin: 70px auto 0px;
+    background-color: rgba(7, 6, 110, .3);
+    border-radius: 15px;
+    box-shadow: 0px 0px 15px rgb(0, 0, 0);
+    padding: 50px;
+    color: white;
+    font-size: 22px;
+    align-content: flex-start;
+}
+
+.spinerDiv {
+    z-index: 1060;
+    width: 90%;
+    height: 90%;
+    background-color: rgba(99, 95, 89, .7);
+}

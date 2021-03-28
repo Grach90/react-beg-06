@@ -12,8 +12,8 @@ class ModalAddTask extends React.PureComponent {
     this.state = {
       title: "",
       description: "",
-      date: new Date(),
-      ...this.props.editTask
+      ...this.props.editTask,
+      date: props.editTask ? new Date(props.editTask.date) : new Date()
     }
   }
 
@@ -95,7 +95,7 @@ class ModalAddTask extends React.PureComponent {
 }
 ModalAddTask.propTypes = {
   handleCloseModal: PropTypes.func.isRequired,
-  getValueAddTask: PropTypes.func.isRequired,
+  getValueAddTask: PropTypes.func,
   editTask: PropTypes.oneOfType([
     PropTypes.shape({
       title: PropTypes.string.isRequired,
@@ -103,7 +103,7 @@ ModalAddTask.propTypes = {
       _id: PropTypes.string,
       date: PropTypes.object
     }),
-    PropTypes.string
+    PropTypes.object
   ]), 
   handleEditTask: PropTypes.func.isRequired
 }

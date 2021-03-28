@@ -4,6 +4,7 @@ import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import style from "./Task.module.css";
 import PropTypes from "prop-types";
 import {memo} from "react";
+import {Link} from "react-router-dom";
 
 function Task({
     task, 
@@ -27,7 +28,7 @@ function Task({
                 />
             </Row>
             <Row className="justify-content-center mb-1">
-                Title: {task.title}
+               <Link to={`/task/${task._id}`} > Title: {task.title} </Link>
             </Row>
             <Row className="justify-content-center mb-1">
                 Discription: {task.description}
