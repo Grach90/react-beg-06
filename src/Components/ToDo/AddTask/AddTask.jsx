@@ -14,7 +14,6 @@ class AddTask extends React.PureComponent {
         };
     }
     
-
     handleChange = (e) => {
         const {name, value} = e.target;
         this.setState({

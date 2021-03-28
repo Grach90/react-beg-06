@@ -1,0 +1,12 @@
+form {
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+h1 {
+    text-align: center;
+}
+
+textarea {
+    resize: none;
+}

@@ -1,8 +1,11 @@
+import ContactForm from "./ContactForm";
+import style from "./contact.module.css";
 
-const Contact = () => {
+function Contact(){
   return (
-    <div style={{fontSize: "60px", textAlign: "center"}}> 
-      Contact
+    <div>
+      <h1>Contact</h1>
+      <ContactForm />
     </div>
   )
 }

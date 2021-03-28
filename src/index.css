@@ -68,3 +68,7 @@ code {
     margin: 5px;
     left: 100%;
 }
+
+textarea {
+    resize: "none";
+}
