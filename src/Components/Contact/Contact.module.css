@@ -28,6 +28,8 @@ textarea {
     text-align: center;
     font-size: 18px;
     background-color: red;
+    margin-left: 150px;
+    margin-right: 150px;
 }
 
 .body {
