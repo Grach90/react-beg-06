@@ -1,8 +1,10 @@
+import style from "./about.module.css";
+
 
 const About = () => {
   return (
-    <div style={{fontSize: "60px", textAlign: "center"}}>
-      About 
+    <div className={style.div}>
+      <h1>About</h1>
     </div>
   )
 }

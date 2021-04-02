@@ -80,7 +80,7 @@ class SingleTask extends React.Component {
         singleTask
       })
     })
-    .catch(() => this.props.history.replace("/404"));
+    .catch((error) => this.props.history.push('/error', error));
   }
 
   render() {

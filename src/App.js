@@ -1,3 +1,4 @@
+import React from 'react';
 import ToDo from "./Components/ToDo/ToDo";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Contact from "./Components/Contact/Contact";
@@ -28,27 +29,29 @@ const routes = [
         exact: true
     },
     {
-        path: '/404',
+        path: "/error/:status",
         component: NotFound,
         exact: true
     }
 ]
 
-function App(){
-    const routerJSX = routes.map((item, index) => {
-        return (
-            <Route key={index} path={item.path} component={item.component} exact={item.exact} />
+class App extends React.Component {
+    render(){
+        const routerJSX = routes.map((item, index) => {
+            return (
+                <Route key={index} path={item.path} component={item.component} exact={item.exact} />
+            )
+        })
+        return(
+            <div className="App">
+                <Navbar />
+                <Switch>
+                    {routerJSX}
+                    <Redirect to="/error/404" />
+                </Switch>
+            </div>
         )
-    })
-    return(
-        <div className="App">
-            <Navbar />
-            <Switch>
-                {routerJSX}
-                <Redirect to="/404" />
-            </Switch>
-        </div>
-    )
-}
+    }
+}  
 
 export default App;

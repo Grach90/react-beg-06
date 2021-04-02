@@ -1,6 +1,9 @@
 form {
     max-width: 600px;
     margin: 50px auto;
+    background-color: rgb(86, 86, 86);
+    padding: 30px;
+    display: grid;
 }
 
 h1 {
@@ -9,4 +12,25 @@ h1 {
 
 textarea {
     resize: none;
+}
+
+.errorMessage {
+    font-family: 'Times New Roman', Times, serif;
+    color: white;
+    text-align: center;
+    background-color: red;
+}
+
+.formText {
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    font-style: italic;
+    text-align: center;
+    font-size: 18px;
+    background-color: red;
+}
+
+.body {
+    background-color: grey;
+    height: 700px;
 }

@@ -21,7 +21,7 @@ function Navbar(){
 
   const navLinksJSX = navLinks.map((item, index) => {
     return (
-      <Nav.Item key={index} >
+      <Nav.Item key={index}>
         <NavLink 
           to={item.to}
           className="nav-link" 
@@ -35,7 +35,7 @@ function Navbar(){
   })
 
   return (
-    <Nav>
+    <Nav className={style.nav}>
       {navLinksJSX}
     </Nav>
   )

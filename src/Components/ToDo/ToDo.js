@@ -1,10 +1,11 @@
 import React from "react";
 import Task from "./Task/Task";
-import {Container, Row, Col, Button} from "react-bootstrap";
+import {Row, Col, Button} from "react-bootstrap";
 import ModalAddTask from "./AddTask/ModalAddTask";
 import ConfirmModl from "./Confirm/ConfirmModal";
 import dateformator from "../../helpers/dateformator";
 import Spiner from '../Spiner/Spiner';
+import style from './ToDo.module.css';
 
 
 
@@ -205,7 +206,7 @@ class ToDo extends React.Component {
             )
         })
         return ( 
-            <Container>
+            <div className={style.mainDiv}>
                 <Row className="justify-content-center mt-3">
                 <Button onClick={this.handleOpenModal} disabled= {!!this.state.markedTasks.size}>
                     Add Task
@@ -237,7 +238,7 @@ class ToDo extends React.Component {
                 handleCloseConfirmModal= {this.handleCloseConfirmModal}
                 count= {this.state.markedTasks.size}
                  />}
-            </Container>
+            </div>
         )
     }
 }

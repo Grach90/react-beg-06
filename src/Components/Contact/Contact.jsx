@@ -3,8 +3,8 @@ import style from "./contact.module.css";
 
 function Contact(){
   return (
-    <div>
-      <h1>Contact</h1>
+    <div className={style.body}>
+      <h1>Contact Form</h1>
       <ContactForm />
     </div>
   )
