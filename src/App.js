@@ -7,10 +7,11 @@ import Contact from "./Components/Contact/Contact";
 import About from "./Components/About/About";
 import NotFound from "./Components/NotFound/NotFound.jsx";
 // import SingleTask from "./Components/SingleTask/SingleTask";
-import SingleTaskWithContext from './Components/SingleTask/SingleTaskWithContext';
-//Providers
+// import SingleTaskWithContext from './Components/SingleTask/SingleTaskWithContext';
+// import SingleTaskProvider from './Context/Providers/SingleTaskProvider';
+import SingleTaskWithReduce from './Components/SingleTask/SingleTaskWithReduce';
 import ContactFormProvider from './Context/Providers/ContactFormProvider';
-import SingleTaskProvider from './Context/Providers/SingleTaskProvider';
+
 
 
 const routes = [
@@ -31,7 +32,7 @@ const routes = [
     },
     {
         path: "/task/:id",
-        component: SingleTaskWithContext,
+        component: SingleTaskWithReduce,
         exact: true
     },
     {
@@ -56,18 +57,6 @@ class App extends React.Component {
                         exact={item.exact} 
                     />
             }  
-            if(index === 3){
-               return <Route 
-                        key={index} 
-                        path={item.path} 
-                        render={(props) => (
-                            <SingleTaskProvider {...props}>
-                                <item.component {...props}/>
-                            </SingleTaskProvider>
-                         ) }
-                        exact={item.exact} 
-                    />
-            }
             return (
                 <Route 
                     key={index} 

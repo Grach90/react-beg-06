@@ -50,7 +50,7 @@ class ModalAddTask extends React.PureComponent {
   }
 
   render(){
-    const {handleCloseModal, editTask, handleEditTask} = this.props;
+    const {handleCloseModal, editTask} = this.props;
       return (
         <Modal 
           show={true} 
