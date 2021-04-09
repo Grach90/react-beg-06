@@ -3,7 +3,6 @@ import Task from "./Task/Task";
 import {Row, Col, Button} from "react-bootstrap";
 import ModalAddTask from "./AddTask/ModalAddTask";
 import ConfirmModl from "./Confirm/ConfirmModal";
-import dateformator from "../../helpers/dateformator";
 import Spiner from '../Spiner/Spiner';
 import style from './ToDo.module.css';
 
@@ -26,7 +25,6 @@ class ToDo extends React.Component {
         this.setState({loading: true});
         (async() => {
             try {
-                task.date = dateformator(task.date);
                 let response = await fetch("http://localhost:3001/task", {
                     method: "POST",
                     body: JSON.stringify(task),
@@ -150,7 +148,6 @@ class ToDo extends React.Component {
     }
     handleEditTask = (editTask) => {
         this.setState({loading: true});
-        editTask.date = dateformator(editTask.date);
         fetch(`http://localhost:3001/task/${editTask._id}`, {
             method: "PUT",
             body: JSON.stringify(editTask),

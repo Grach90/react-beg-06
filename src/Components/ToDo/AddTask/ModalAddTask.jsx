@@ -3,7 +3,7 @@ import {Modal, Button, Form, InputGroup} from "react-bootstrap";
 import style from "./AddTask.module.css";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
-
+import dateformator from "../../../helpers/dateformator";
 
 class ModalAddTask extends React.PureComponent {
   constructor(props){
@@ -33,7 +33,17 @@ class ModalAddTask extends React.PureComponent {
     const {title, description} = this.state;
     if(title === "" || description === "" )
     return;
-    this.props.getValueAddTask(this.state);
+    const formData = {
+      ...this.state,
+      date: dateformator(this.state.date)
+  }
+    this.props.getValueAddTask(formData);
+  }
+
+  handleEditableTask = () => {
+    const formData = {...this.state}
+    formData.date = dateformator(formData.date);
+    this.props.handleEditTask(formData);
   }
   componentDidMount(){
     this.inputRef.current.focus();
@@ -84,7 +94,7 @@ class ModalAddTask extends React.PureComponent {
           </Button>
           <Button 
               className="ml-3"
-              onClick={(editTask) ? () => handleEditTask(this.state) : this.passValue}
+              onClick={(editTask) ? this.handleEditableTask : this.passValue}
           >
               {(editTask) ? "Save" : "Add"}
           </Button>
