@@ -2,12 +2,12 @@ import {Modal, Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 import {memo} from "react";
 
-function ConfirmModal({handleCloseConfirmModal, removeMarkedTasks, count}){
+function ConfirmModal({toggleConfirmModal, removeMarkedTasks, count}){
   return (
     <Modal
         size="lg"
         show={true}
-        onHide={() => handleCloseConfirmModal(true)}
+        onHide={() => toggleConfirmModal()}
         aria-labelledby="example-modal-sizes-title-sm"
       >
         <Modal.Header closeButton>
@@ -16,7 +16,7 @@ function ConfirmModal({handleCloseConfirmModal, removeMarkedTasks, count}){
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <Button variant="secondary" onClick={() => handleCloseConfirmModal(true)}>Close</Button>
+        <Button variant="secondary" onClick={() => toggleConfirmModal()}>Close</Button>
         <Button 
             className="ml-3"
             variant= "danger"
@@ -30,7 +30,7 @@ function ConfirmModal({handleCloseConfirmModal, removeMarkedTasks, count}){
 }
 ConfirmModal.propTypes = {
   removeMarkedTasks: PropTypes.func.isRequired,
-  handleCloseConfirmModal: PropTypes.func.isRequired,
+  toggleConfirmModal: PropTypes.func.isRequired,
   count: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string

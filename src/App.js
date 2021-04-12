@@ -1,7 +1,8 @@
 import React from 'react';
 import {Switch, Route, Redirect} from "react-router-dom";
 //Components
-import ToDo from "./Components/ToDo/ToDo";
+// import ToDo from "./Components/ToDo/ToDo";
+import ToDoWithRedux from "./Components/ToDo/ToDoWithRedux";
 import Navbar from "./Components/Navbar/Navbar.jsx";
 import Contact from "./Components/Contact/Contact";
 import About from "./Components/About/About";
@@ -9,7 +10,8 @@ import NotFound from "./Components/NotFound/NotFound.jsx";
 // import SingleTask from "./Components/SingleTask/SingleTask";
 // import SingleTaskWithContext from './Components/SingleTask/SingleTaskWithContext';
 // import SingleTaskProvider from './Context/Providers/SingleTaskProvider';
-import SingleTaskWithReduce from './Components/SingleTask/SingleTaskWithReduce';
+// import SingleTaskWithReduce from './Components/SingleTask/SingleTaskWithReduce';
+import SingleTaskWithRedux from './Components/SingleTask/SingleTaskWithRedux';
 import ContactFormProvider from './Context/Providers/ContactFormProvider';
 
 
@@ -17,7 +19,7 @@ import ContactFormProvider from './Context/Providers/ContactFormProvider';
 const routes = [
     {
         path: '/',
-        component: ToDo,
+        component: ToDoWithRedux,
         exact: true
     },
     {
@@ -32,7 +34,7 @@ const routes = [
     },
     {
         path: "/task/:id",
-        component: SingleTaskWithReduce,
+        component: SingleTaskWithRedux,
         exact: true
     },
     {
