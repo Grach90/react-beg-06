@@ -7,10 +7,10 @@ import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 import ModalAddTask from "../ToDo/AddTask/ModalAddTask";
 import PropTypes from "prop-types";
 import Spiner from '../Spiner/Spiner';
+import types from '../../Redux/actionTypes';
 
 const SingleTaskWithRedux = (props) => {
-  // console.log(props);
-  const {state: {singleTaskState: {singleTask, isModalAddTask, loading}}} = props;
+  const {state:{singleTask, isModalAddTask, loading}} = props;
   const {
     toggleSetLoading,
     editSingleTask,
@@ -99,15 +99,15 @@ const SingleTaskWithRedux = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    state: {...state}
+    state: {...state.singleTaskState}
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      toggleSetLoading: () => dispatch({type: "TOGGLE_SET_LOADING"}),
-      editSingleTask: (singleTask) => dispatch({type: "EDIT_SINGLETASK", singleTask}),
-      toggleCloseModal: () => dispatch({type: "CLOSE_SINGLETASK_MODAL"})
+      toggleSetLoading: () => dispatch({type: types.TOGGLE_SET_LOADING}),
+      editSingleTask: (singleTask) => dispatch({type: types.EDIT_SINGLETASK, singleTask}),
+      toggleCloseModal: () => dispatch({type: types.CLOSE_SINGLETASK_MODAL})
     }
 }
 SingleTaskWithRedux.propTypes = {

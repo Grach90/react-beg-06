@@ -6,10 +6,16 @@ import ModalAddTask from "./AddTask/ModalAddTask";
 import ConfirmModl from "./Confirm/ConfirmModal";
 import Spiner from '../Spiner/Spiner';
 import style from './ToDo.module.css';
-
+import {handleEditTaskThunk, 
+  removeMarkedTasksthunk, 
+  addTaskThunk, 
+  removeTaskThunk, 
+  useEffectTrunk
+} from '../../Redux/action';
+import types from './../../Redux/actionTypes';
 
 const ToDoWithRedux = (props) => {
-  let {toDoState: {
+  let {state: {
     tasks,
     isModalAddTask, 
     isConfirmModal, 
@@ -17,12 +23,11 @@ const ToDoWithRedux = (props) => {
     loading,
     markedTasks,
     editTask
-    },
-    toggleSetLoading,
+  },
     getTask,
     remov_eTask,
     addTask,
-    deleteMarketTasks,
+    removeMarkedTasks,
     chekedTasks,
     markAllTasks,
     openModal,
@@ -32,107 +37,12 @@ const ToDoWithRedux = (props) => {
     edit_Task
   } = props;
 
-  const handleEditTask = (editTableask) => {
-    toggleSetLoading();
-    fetch(`http://localhost:3001/task/${editTableask._id}`, {
-        method: "PUT",
-        body: JSON.stringify(editTableask),
-        headers: {
-            "Content-Type":"application/json"
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.error) throw data.error;
-        let index = tasks.findIndex((task) => task._id === editTableask._id);
-        tasks[index] = data;
-        edit_Task(tasks);
-    })
-    .catch(error => console.log("Error", error))
-    .finally(() => toggleSetLoading());
-}
-
-  const handleOpenEditTaskModal = (editTask) => {
-    openEditTaskModal(editTask)
-}
-
-  const handleCloseModal = (name) => {
-    closeModal(name);
-}
-
-  const handleMarkedTasks = (_id) => {
-    if(markedTasks.has(_id))
-    markedTasks.delete(_id);
-    else
-    markedTasks.add(_id);
-    chekedTasks(markedTasks);
-  }
-
-  const removeMarkedTasks = () => {
-    toggleSetLoading();
-    fetch("http://localhost:3001/task", {
-        method: "PATCH",
-        body: JSON.stringify({tasks: Array.from(markedTasks)}),
-        headers: {
-            "Content-Type":"application/json"
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if(data.error) throw data.error;
-        tasks = tasks.filter(task => !markedTasks.has(task._id));
-        deleteMarketTasks(tasks);
-    })
-    .catch(error => console.log("Error", error))
-    .finally(() => toggleSetLoading()); 
-  }
-
-  const getValueAddTask = (task) => {
-    toggleSetLoading();
-    (async() => {
-        try {
-            let response = await fetch("http://localhost:3001/task", {
-                method: "POST",
-                body: JSON.stringify(task),
-                headers: {
-                    "Content-Type":"application/json"
-                }
-            })
-            let data = await response.json();
-            if(data.error) throw data.error;
-            tasks.push(data);
-            addTask(tasks);
-        } catch(error){
-            console.log("Error", error);
-        } finally {
-          toggleSetLoading();
-        }
-    })();  
-  };
-
-  const removeTask = (deleteTask) => {
-    toggleSetLoading();
-    fetch(`http://localhost:3001/task/${deleteTask._id}`, {method: "DELETE"})
-    .then(res => res.json())
-    .then(data => {
-        if(data.error) throw data.error;
-        tasks = tasks.filter(task => task._id !== deleteTask._id);
-        remov_eTask(tasks);
-    })
-    .catch(error => console.log("Error", error))
-    .finally(() => toggleSetLoading());
+  const handleEditTask = (editTableTask) => {
+    edit_Task(editTableTask, tasks);
   }
 
   useEffect(() => {
-    toggleSetLoading();
-  fetch("http://localhost:3001/task")
-  .then(response => response.json())
-  .then(data => {
-      if(data.error) throw data.error;
-      getTask(data);
-  })
-  .catch(error => console.log("Error", error))
-  .finally(() => toggleSetLoading());
+    getTask();
   }, []);
 
   const isAddEditModal = (isModalEditTask===false || isModalAddTask===false) ? false : true;
@@ -141,11 +51,11 @@ const ToDoWithRedux = (props) => {
           <Col key={task._id}>
               <Task 
               task={task}
-              removeTask= {removeTask}
-              handleMarkedTasks={handleMarkedTasks}
+              removeTask= {remov_eTask}
+              handleMarkedTasks={chekedTasks}
               cheked={!!markedTasks.has(task._id)}
               isEmptyMarkedTasks= {!!markedTasks.size}
-              handleOpenEditTaskModal= {handleOpenEditTaskModal}
+              handleOpenEditTaskModal= {openEditTaskModal}
                 />
           </Col>
       )
@@ -174,13 +84,13 @@ const ToDoWithRedux = (props) => {
             </Row>
             {loading && <Spiner />}
             {isAddEditModal || <ModalAddTask 
-                handleCloseModal= {handleCloseModal}
-                getValueAddTask= {getValueAddTask} 
+                handleCloseModal= {closeModal}
+                getValueAddTask= {addTask} 
                 editTask= {editTask}
                 handleEditTask= {handleEditTask}
             />} 
         {isConfirmModal || <ConfirmModl
-        removeMarkedTasks= {removeMarkedTasks}
+        removeMarkedTasks= {() => removeMarkedTasks(markedTasks)}
         toggleConfirmModal= {toggleConfirmModal}
         count= {markedTasks.size}
          />}
@@ -190,24 +100,33 @@ const ToDoWithRedux = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-      ...state
+      state: {...state.toDoState}
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    toggleSetLoading: () => dispatch({type: 'SET_LOADING'}),
-    getTask: (data) => dispatch({type: 'GET_TASK', data}),
-    remov_eTask: (tasks) => dispatch({type: 'REMOVE_TASK', tasks}),
-    addTask: (tasks) => dispatch({type: 'ADD_TASK', tasks}),
-    deleteMarketTasks: (tasks) => dispatch({type: 'REMOVE_MARKED_TASKS', tasks}),
-    chekedTasks: (markedTasks) => dispatch({type: 'MARKED_TASKS', markedTasks}),
-    markAllTasks: () =>  dispatch({type: 'MARK_ALL_TASKS'}),
-    openModal: () => dispatch({type: 'OPEN_MODAL'}),
-    closeModal: (name) => dispatch({type: 'CLOSE_MODAL', name}),
-    toggleConfirmModal: () => dispatch({type: 'TOGGLE_CONFIRM_MODAL'}),
-    openEditTaskModal: (editTask) => dispatch({type: 'OPEN_EDIT_TASK_MODAL', editTask}),
-    edit_Task: (tasks) => dispatch({type: 'EDIT_TASK', tasks})
+    getTask: () => { 
+      dispatch((dispatch) => useEffectTrunk(dispatch));
+    },
+    remov_eTask: (task) => {
+      dispatch((dispatch) => removeTaskThunk(dispatch, task));
+    },
+    addTask: (task) => {
+       dispatch((dispatch) => addTaskThunk(dispatch, task));
+    },
+    removeMarkedTasks: (markedTasks) => {
+       dispatch((dispatch) => removeMarkedTasksthunk(dispatch,markedTasks));
+    },
+    edit_Task: (editTableTask, tasks) => {
+      dispatch((dispatch) => handleEditTaskThunk(dispatch, tasks, editTableTask));
+    }, 
+    chekedTasks: (_id) => dispatch({type: types.MARKED_TASKS, _id}),
+    markAllTasks: () =>  dispatch({type: types.MARK_ALL_TASKS}),
+    openModal: () => dispatch({type: types.OPEN_MODAL}),
+    closeModal: (name) => dispatch({type: types.CLOSE_MODAL, name}),
+    toggleConfirmModal: () => dispatch({type: types.TOGGLE_CONFIRM_MODAL}),
+    openEditTaskModal: (editTask) => dispatch({type: types.OPEN_EDIT_TASK_MODAL, editTask})
   }
 }
 
