@@ -2,19 +2,11 @@ import types from '../actionTypes';
 
 const initialState = {
     singleTask: null,
-    isModalAddTask: true,
-    loading: false
+    isModalAddTask: true
 }
 
 const singleTaskReducer = (state = initialState, action) => {
     switch (action.type) {
-        case types.TOGGLE_SET_LOADING:
-            {
-                return {
-                    ...state,
-                    loading: !state.loading
-                }
-            }
         case types.EDIT_SINGLETASK:
             {
                 return {

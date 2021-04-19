@@ -7,8 +7,7 @@ const initialState = {
     isModalAddTask: true,
     isConfirmModal: true,
     isModalEditTask: true,
-    editTask: null,
-    loading: false
+    editTask: null
 }
 
 const toDoReducer = (state = initialState, action) => {
@@ -117,14 +116,12 @@ const toDoReducer = (state = initialState, action) => {
                     tasks: action.data
                 }
             }
-        case types.SET_LOADING:
+        case types.RESET_TODO_STATE:
             {
                 return {
-                    ...state,
-                    loading: !state.loading
+                    ...initialState
                 }
             }
-
         default:
             return state;
     }

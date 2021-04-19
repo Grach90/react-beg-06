@@ -8,68 +8,23 @@ import ModalAddTask from "../ToDo/AddTask/ModalAddTask";
 import PropTypes from "prop-types";
 import Spiner from '../Spiner/Spiner';
 import types from '../../Redux/actionTypes';
+import {removeSingleTaskThunk, handleEditSingleTaskThunk, getsingleTaskThunk} from '../../Redux/action';
 
 const SingleTaskWithRedux = (props) => {
   const {state:{singleTask, isModalAddTask, loading}} = props;
   const {
-    toggleSetLoading,
-    editSingleTask,
-    toggleCloseModal
+    resetState,
+    removeTask,
+    handleEditTask,
+    getSingleTask,
+    handleCloseModal
   } = props;
   
-  const removeTask = () => {
-    toggleSetLoading();
-    fetch(`http://localhost:3001/task/${singleTask._id}`, {
-      method: "DELETE"
-    })
-    .then(response => response.json())
-    .then(data => {
-      if(data.error) throw data.error;
-      toggleSetLoading();
-      props.history.push("/");
-    })
-    .catch(error => {
-      console.log("Error", error)
-      toggleSetLoading();
-    }); 
-  }
-
-  const handleCloseModal = () => {
-    toggleCloseModal();
-  }
-
-  const handleEditTask = (singleTask) => {
-    toggleSetLoading();
-    (async() => {
-      try {
-      const response = await fetch(`http://localhost:3001/task/${singleTask._id}`, {
-        method: "PUT",
-        body: JSON.stringify(singleTask),
-        headers: {
-          "Content-Type":"application/json"
-        }
-      });
-      const data = await response.json();
-      if(data.error) throw data.error;
-      editSingleTask(data);
-      toggleCloseModal();
-    } catch(error) {
-      console.log("Error", error);
-    } finally {
-      toggleSetLoading();
-    }
-    })();
-  }
-
   useEffect(() => {
-    const {id} = props.match.params;
-    fetch(`http://localhost:3001/task/${id}`)
-    .then(response => response.json())
-    .then(singleTask => {
-      if(singleTask.error) throw singleTask.error;
-      editSingleTask(singleTask);
-    })
-    .catch((error) => props.history.push('/error', error));
+    getSingleTask(props.match.params, props.history.push);
+    return () => {
+      resetState();
+    }
   }, []);
   
   if(!singleTask) return <Spiner />
@@ -79,7 +34,7 @@ const SingleTaskWithRedux = (props) => {
           <div>Description: {singleTask.description}</div>
           <div>Date: {singleTask.date.slice(0, 10)}</div>
           <div style={{marginTop: "20px"}}>
-            <Button onClick={removeTask} variant="primary">
+            <Button onClick={() => removeTask(singleTask, props.history)} variant="primary">
                 <FontAwesomeIcon icon={faTrash} />
             </Button>
             <Button onClick={handleCloseModal} variant="danger" className="ml-3 mr-5">
@@ -99,15 +54,21 @@ const SingleTaskWithRedux = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    state: {...state.singleTaskState}
+    state: {...state.singleTaskState, ...state.globalState}
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      toggleSetLoading: () => dispatch({type: types.TOGGLE_SET_LOADING}),
-      editSingleTask: (singleTask) => dispatch({type: types.EDIT_SINGLETASK, singleTask}),
-      toggleCloseModal: () => dispatch({type: types.CLOSE_SINGLETASK_MODAL})
+      handleCloseModal: () => dispatch({type: types.CLOSE_SINGLETASK_MODAL}),
+      resetState: () => dispatch({type: types.RESET_SINGLETASK_STATE}),
+      removeTask: (singleTask, history) => {
+        dispatch((dispatch) => removeSingleTaskThunk(dispatch, singleTask, history));
+      },
+      handleEditTask: (singleTask) => {
+        dispatch((dispatch) => handleEditSingleTaskThunk(dispatch, singleTask));
+      },
+      getSingleTask: (params, history) => dispatch((dispatch) => getsingleTaskThunk(dispatch, params, history))
     }
 }
 SingleTaskWithRedux.propTypes = {

@@ -12,7 +12,7 @@ function ConfirmModal({toggleConfirmModal, removeMarkedTasks, count}){
       >
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-sm">
-            Do you want to delete {count} of tasks ?
+            Do you want to delete {count > 1 ? count : count[0].title} of tasks ?
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -33,7 +33,7 @@ ConfirmModal.propTypes = {
   toggleConfirmModal: PropTypes.func.isRequired,
   count: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.string
+    PropTypes.array
 
   ])
 }
