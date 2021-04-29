@@ -1,9 +1,11 @@
 import types from './actionTypes';
 import dateFormator from '../helpers/dateformator';
+const API_HOST = process.env.REACT_APP_API_URL;
 
+console.log(process.env.REACT_APP_API_URL);
 export const handleEditTaskThunk = (dispatch, editTableTask) => {
     dispatch({ type: types.SET_LOADING });
-    fetch(`http://localhost:3001/task/${editTableTask._id}`, {
+    fetch(`${API_HOST}/task/${editTableTask._id}`, {
             method: "PUT",
             body: JSON.stringify(editTableTask),
             headers: {
@@ -22,7 +24,7 @@ export const handleEditTaskThunk = (dispatch, editTableTask) => {
 
 export const removeMarkedTasksthunk = (dispatch, markedTasks) => {
     dispatch({ type: types.SET_LOADING });
-    fetch("http://localhost:3001/task", {
+    fetch(`${API_HOST}/task`, {
             method: "PATCH",
             body: JSON.stringify({ tasks: Array.from(markedTasks) }),
             headers: {
@@ -42,7 +44,7 @@ export const removeMarkedTasksthunk = (dispatch, markedTasks) => {
 export const addTaskThunk = async(dispatch, task) => {
     dispatch({ type: types.SET_LOADING });
     try {
-        let response = await fetch("http://localhost:3001/task", {
+        let response = await fetch(`${API_HOST}/task`, {
             method: "POST",
             body: JSON.stringify(task),
             headers: {
@@ -62,7 +64,7 @@ export const addTaskThunk = async(dispatch, task) => {
 
 export const removeTaskThunk = (dispatch, deleteTask) => {
     dispatch({ type: types.SET_LOADING });
-    fetch(`http://localhost:3001/task/${deleteTask._id}`, { method: "DELETE" })
+    fetch(`${API_HOST}/task/${deleteTask._id}`, { method: "DELETE" })
         .then(res => res.json())
         .then(data => {
             if (data.error) throw data.error;
@@ -75,7 +77,7 @@ export const removeTaskThunk = (dispatch, deleteTask) => {
 
 export const useEffectTrunk = (dispatch) => {
     dispatch({ type: types.SET_LOADING });
-    fetch("http://localhost:3001/task")
+    fetch(`${API_HOST}/task`)
         .then(response => response.json())
         .then(data => {
             if (data.error) throw data.error;
@@ -97,7 +99,7 @@ export const subMitThunk = (dispatch, formData, history) => {
 
     if (!valid) return;
     dispatch({ type: types.SET_LOADING });
-    fetch("http://localhost:3001/form", {
+    fetch(`${API_HOST}/form`, {
             method: "POST",
             body: JSON.stringify(formData),
             headers: {
@@ -119,7 +121,7 @@ export const subMitThunk = (dispatch, formData, history) => {
 };
 export const removeSingleTaskThunk = (dispatch, singleTask, history) => {
     dispatch({ type: types.SET_LOADING });
-    fetch(`http://localhost:3001/task/${singleTask._id}`, {
+    fetch(`${API_HOST}/task/${singleTask._id}`, {
             method: "DELETE"
         })
         .then(response => response.json())
@@ -139,7 +141,7 @@ export const handleEditSingleTaskThunk = (dispatch, singleTask) => {
     dispatch({ type: types.SET_LOADING });
     (async() => {
         try {
-            const response = await fetch(`http://localhost:3001/task/${singleTask._id}`, {
+            const response = await fetch(`${API_HOST}/task/${singleTask._id}`, {
                 method: "PUT",
                 body: JSON.stringify(singleTask),
                 headers: {
@@ -161,7 +163,7 @@ export const handleEditSingleTaskThunk = (dispatch, singleTask) => {
 
 export const getsingleTaskThunk = (dispatch, params, history) => {
     const { id } = params;
-    fetch(`http://localhost:3001/task/${id}`)
+    fetch(`${API_HOST}/task/${id}`)
         .then(response => response.json())
         .then(singleTask => {
             if (singleTask.error) throw singleTask.error;
@@ -172,7 +174,7 @@ export const getsingleTaskThunk = (dispatch, params, history) => {
 
 export const handleActiveTaskThunk = (dispatch, task) => {
     const status = task.status === 'active' ? 'done' : 'active';
-    fetch(`http://localhost:3001/task/${task._id}`, {
+    fetch(`${API_HOST}/task/${task._id}`, {
         method: 'PUT',
         body: JSON.stringify({ status }),
         headers: {
@@ -189,7 +191,7 @@ export const handleActiveTaskThunk = (dispatch, task) => {
 
 export const handleSubmitThunk = (dispatch, searchState) => {
     dispatch({ type: types.SET_LOADING });
-    let url = 'http://localhost:3001/task?';
+    let url = `${API_HOST}/task?`;
     for (let key in searchState) {
         if (searchState[key] instanceof Date) {
             searchState[key] = dateFormator(searchState[key]);
