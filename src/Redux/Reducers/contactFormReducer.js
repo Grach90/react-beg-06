@@ -18,8 +18,7 @@ const initialState = {
             error: "",
             valid: false
         }
-    },
-    errorMessage: ""
+    }
 }
 const maxLength30 = maxLength(30);
 const minLength6 = minLength(6);
@@ -39,23 +38,7 @@ const contactFormReducer = (state = initialState, action) => {
                 formData[name].value = value;
                 formData[name].error = error;
                 return {
-                    ...state,
                     formData
-                }
-            }
-        case types.UNSET_ERRORMESSAGE:
-            {
-                return {
-                    ...state,
-                    errorMessage: ""
-                }
-            }
-        case types.SET_ERRORMESSAGE:
-            {
-
-                return {
-                    ...state,
-                    errorMessage: action.errorMessage
                 }
             }
         case types.RESET_CONTACTFORM_STATE:
@@ -79,8 +62,7 @@ const contactFormReducer = (state = initialState, action) => {
                             error: "",
                             valid: false
                         }
-                    },
-                    errorMessage: ""
+                    }
                 }
             }
         default:

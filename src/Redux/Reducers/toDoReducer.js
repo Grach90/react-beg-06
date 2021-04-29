@@ -14,9 +14,13 @@ const toDoReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.EDIT_TASK:
             {
+                let { tasks } = state;
+                const { data } = action;
+                const index = tasks.findIndex((task) => task._id === data._id);
+                tasks[index] = data;
                 return {
                     ...state,
-                    tasks: action.tasks,
+                    tasks,
                     isModalEditTask: true,
                     editTask: null
                 }

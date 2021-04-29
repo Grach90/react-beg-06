@@ -1,5 +1,8 @@
-import React from 'react';
+import {useEffect} from 'react';
+import {connect} from 'react-redux';
 import {Switch, Route, Redirect} from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 //Components
 // import ToDo from "./Components/ToDo/ToDo";
 import ToDoWithRedux from "./Components/ToDo/ToDoWithRedux";
@@ -44,8 +47,29 @@ const routes = [
     }
 ]
 
-class App extends React.Component {
-    render(){
+const App = (props) => {
+    const {errorMessage, successMessage} = props;
+    useEffect(()=> {
+        errorMessage &&  toast.error(errorMessage, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+        successMessage && toast.success(successMessage, {
+            position: "bottom-left",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            });
+    }, [errorMessage, successMessage]);
+    
         const routerJSX = routes.map((item, index) => {
             if(index === 1){
                     <Route 
@@ -75,9 +99,14 @@ class App extends React.Component {
                     {routerJSX}
                     <Redirect to="/error/404" />
                 </Switch>
+                <ToastContainer />
             </div>
         )
-    }
+    
 }  
+const mapStateToProps = (state) => ({
+    errorMessage: state.globalState.errorMessage,
+    successMessage: state.globalState.successMessage
+})
 
-export default App;
+export default connect(mapStateToProps, null)(App);

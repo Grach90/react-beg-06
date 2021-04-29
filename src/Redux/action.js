@@ -1,7 +1,7 @@
 import types from './actionTypes';
 import dateFormator from '../helpers/dateformator';
 
-export const handleEditTaskThunk = (dispatch, tasks, editTableTask) => {
+export const handleEditTaskThunk = (dispatch, editTableTask) => {
     dispatch({ type: types.SET_LOADING });
     fetch(`http://localhost:3001/task/${editTableTask._id}`, {
             method: "PUT",
@@ -13,11 +13,10 @@ export const handleEditTaskThunk = (dispatch, tasks, editTableTask) => {
         .then(response => response.json())
         .then(data => {
             if (data.error) throw data.error;
-            let index = tasks.findIndex((task) => task._id === editTableTask._id);
-            tasks[index] = data;
-            dispatch({ type: types.EDIT_TASK, tasks });
+            dispatch({ type: types.EDIT_TASK, data });
+            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Task has been edited success!' });
         })
-        .catch(error => console.log("Error", error))
+        .catch(error => dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message }))
         .finally(() => dispatch({ type: types.SET_LOADING }));
 }
 
@@ -34,8 +33,9 @@ export const removeMarkedTasksthunk = (dispatch, markedTasks) => {
         .then(data => {
             if (data.error) throw data.error;
             dispatch({ type: types.REMOVE_MARKED_TASKS });
+            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Marked Tasks have been deleted success!' });
         })
-        .catch(error => console.log("Error", error))
+        .catch(error => dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message }))
         .finally(() => dispatch({ type: types.SET_LOADING }));
 }
 
@@ -52,8 +52,9 @@ export const addTaskThunk = async(dispatch, task) => {
         let data = await response.json();
         if (data.error) throw data.error;
         dispatch({ type: types.ADD_TASK, data });
+        dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Task has been added success!' });
     } catch (error) {
-        console.log("Error", error);
+        dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message });
     } finally {
         dispatch({ type: types.SET_LOADING });
     }
@@ -65,9 +66,10 @@ export const removeTaskThunk = (dispatch, deleteTask) => {
         .then(res => res.json())
         .then(data => {
             if (data.error) throw data.error;
-            dispatch({ type: types.REMOVE_TASK, deleteTask })
+            dispatch({ type: types.REMOVE_TASK, deleteTask });
+            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Task has been deleted success!' });
         })
-        .catch(error => console.log("Error", error))
+        .catch(error => dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message }))
         .finally(() => dispatch({ type: types.SET_LOADING }));
 }
 
@@ -79,7 +81,7 @@ export const useEffectTrunk = (dispatch) => {
             if (data.error) throw data.error;
             dispatch({ type: types.GET_TASK, data });
         })
-        .catch(error => console.log("Error", error))
+        .catch(error => dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message }))
         .finally(() => dispatch({ type: types.SET_LOADING }));
 }
 
@@ -94,7 +96,6 @@ export const subMitThunk = (dispatch, formData, history) => {
     }
 
     if (!valid) return;
-    dispatch({ type: types.UNSET_ERRORMESSAGE });
     dispatch({ type: types.SET_LOADING });
     fetch("http://localhost:3001/form", {
             method: "POST",
@@ -108,11 +109,12 @@ export const subMitThunk = (dispatch, formData, history) => {
             if (data.error) throw data.error;
             dispatch({ type: types.SET_LOADING });
             history.replace("/");
+            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Datas have been sent success!' });
         })
         .catch(error => {
             console.log("Error", error);
-            dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message });
             dispatch({ type: types.SET_LOADING });
+            dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message });
         });
 };
 export const removeSingleTaskThunk = (dispatch, singleTask, history) => {
@@ -129,6 +131,7 @@ export const removeSingleTaskThunk = (dispatch, singleTask, history) => {
         .catch(error => {
             console.log("Error", error)
             dispatch({ type: types.SET_LOADING });
+            dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message });
         });
 };
 
@@ -147,8 +150,9 @@ export const handleEditSingleTaskThunk = (dispatch, singleTask) => {
             if (data.error) throw data.error;
             dispatch({ type: types.EDIT_SINGLETASK, singleTask: data });
             dispatch({ type: types.CLOSE_SINGLETASK_MODAL });
+            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Task has been edited success!' });
         } catch (error) {
-            console.log("Error", error);
+            dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message });
         } finally {
             dispatch({ type: types.SET_LOADING });
         }
@@ -163,5 +167,45 @@ export const getsingleTaskThunk = (dispatch, params, history) => {
             if (singleTask.error) throw singleTask.error;
             dispatch({ type: types.EDIT_SINGLETASK, singleTask });
         })
-        .catch((error) => history.push('/error', error));
+        .catch((error) => dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message }));
+}
+
+export const handleActiveTaskThunk = (dispatch, task) => {
+    const status = task.status === 'active' ? 'done' : 'active';
+    fetch(`http://localhost:3001/task/${task._id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ status }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).
+    then(response => response.json()).
+    then(data => {
+        if (data.error) throw data.error;
+        dispatch({ type: types.EDIT_TASK, data });
+    }).
+    catch(error => dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message }));
+}
+
+export const handleSubmitThunk = (dispatch, searchState) => {
+    dispatch({ type: types.SET_LOADING });
+    let url = 'http://localhost:3001/task?';
+    for (let key in searchState) {
+        if (searchState[key] instanceof Date) {
+            searchState[key] = dateFormator(searchState[key]);
+        }
+        if (searchState[key]) {
+            url = url + `${key}=${searchState[key]}&`;
+        }
+    }
+    url = url.slice(0, url.length - 1);
+    fetch(url).
+    then(response => response.json()).
+    then(data => {
+        if (data.error) throw data.error;
+        dispatch({ type: types.GET_TASK, data });
+        dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Search completed successfully!' });
+    }).
+    catch(error => dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message })).
+    finally(() => dispatch({ type: types.SET_LOADING }));
 }

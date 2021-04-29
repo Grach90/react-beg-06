@@ -1,6 +1,6 @@
 import {Container, Row, Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faEdit, faHourglassHalf, faCheck } from '@fortawesome/free-solid-svg-icons'
 import style from "./Task.module.css";
 import PropTypes from "prop-types";
 import {memo} from "react";
@@ -12,7 +12,8 @@ function Task({
     handleMarkedTasks, 
     cheked, 
     isEmptyMarkedTasks,
-    handleOpenEditTaskModal
+    handleOpenEditTaskModal,
+    handleActiveTask
 })
 {
     function handleRemoveTask(){
@@ -42,6 +43,10 @@ function Task({
                 </Button>
                 <Button onClick= {() => handleOpenEditTaskModal(task)} disabled= {isEmptyMarkedTasks} variant="danger" className="ml-3">
                     <FontAwesomeIcon icon={faEdit} />
+                </Button>
+                <Button onClick={() => handleActiveTask(task)} className="ml-3" variant="info">
+                {task.status === "active" && <FontAwesomeIcon icon={faHourglassHalf} />}
+                {task.status === "done" && <FontAwesomeIcon icon={faCheck} />}
                 </Button>
             </Row>
         </Container>

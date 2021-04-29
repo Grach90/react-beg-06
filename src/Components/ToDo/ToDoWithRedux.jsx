@@ -7,13 +7,16 @@ import ModalAddTaskWithRedux from "./AddTask/ModalAddTaskWithRedux";
 import ConfirmModl from "./Confirm/ConfirmModal";
 import Spiner from '../Spiner/Spiner';
 import style from './ToDo.module.css';
+import types from './../../Redux/actionTypes';
+import Search from '../Search/Search';
 import {handleEditTaskThunk, 
   removeMarkedTasksthunk, 
   addTaskThunk, 
   removeTaskThunk, 
-  useEffectTrunk
+  useEffectTrunk,
+  handleActiveTaskThunk
 } from '../../Redux/action';
-import types from './../../Redux/actionTypes';
+
 
 const ToDoWithRedux = (props) => {
   let {state: {
@@ -36,7 +39,8 @@ const ToDoWithRedux = (props) => {
     toggleConfirmModal,
     openEditTaskModal,
     edit_Task,
-    resetToDoState
+    resetToDoState,
+    handleActiveTask
   } = props;
 
   const handleEditTask = (editTableTask) => {
@@ -61,6 +65,7 @@ const ToDoWithRedux = (props) => {
               cheked={!!markedTasks.has(task._id)}
               isEmptyMarkedTasks= {!!markedTasks.size}
               handleOpenEditTaskModal= {openEditTaskModal}
+              handleActiveTask={handleActiveTask}
                 />
           </Col>
       )
@@ -68,6 +73,9 @@ const ToDoWithRedux = (props) => {
 
   return ( 
     <div className={style.mainDiv}>
+        <Col>
+          <Search />
+        </Col>
         <Row className="justify-content-center mt-3">
         <Button onClick={() => openModal()} disabled= {!!markedTasks.size}>
             Add Task
@@ -124,7 +132,7 @@ const mapDispatchToProps = (dispatch) => {
        dispatch((dispatch) => removeMarkedTasksthunk(dispatch,markedTasks));
     },
     edit_Task: (editTableTask, tasks) => {
-      dispatch((dispatch) => handleEditTaskThunk(dispatch, tasks, editTableTask));
+      dispatch((dispatch) => handleEditTaskThunk(dispatch, editTableTask));
     }, 
     chekedTasks: (_id) => dispatch({type: types.MARKED_TASKS, _id}),
     markAllTasks: () =>  dispatch({type: types.MARK_ALL_TASKS}),
@@ -132,7 +140,10 @@ const mapDispatchToProps = (dispatch) => {
     closeModal: (name) => dispatch({type: types.CLOSE_MODAL, name}),
     toggleConfirmModal: () => dispatch({type: types.TOGGLE_CONFIRM_MODAL}),
     openEditTaskModal: (editTask) => dispatch({type: types.OPEN_EDIT_TASK_MODAL, editTask}),
-    resetToDoState: () => dispatch({type: types.RESET_TODO_STATE})
+    resetToDoState: () => dispatch({type: types.RESET_TODO_STATE}),
+    handleActiveTask: (task) => {
+      dispatch((dispatch) => handleActiveTaskThunk(dispatch, task))
+    }
   }
 }
 

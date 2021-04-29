@@ -69,7 +69,6 @@ const ContactFormWithRedux = (props) => {
   
     return (
       <>
-        <h4 className={style.errorMessage}>{errorMessage}</h4>
         <Form className ={style.form} onSubmit={(e) => e.preventDefault()} >
           {inputsJSX}
           <Button 
