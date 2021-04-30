@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {connect} from 'react-redux';
 import {Form, Button} from "react-bootstrap";
-import style from "./contact.module.css";
+// import style from "./contact.module.css";
 import {withRouter} from "react-router-dom";
 import Spiner from "../Spiner/Spiner";
 import types from '../../Redux/actionTypes';
