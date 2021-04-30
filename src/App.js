@@ -15,7 +15,6 @@ import NotFound from "./Components/NotFound/NotFound.jsx";
 // import SingleTaskProvider from './Context/Providers/SingleTaskProvider';
 // import SingleTaskWithReduce from './Components/SingleTask/SingleTaskWithReduce';
 import SingleTaskWithRedux from './Components/SingleTask/SingleTaskWithRedux';
-import ContactFormProvider from './Context/Providers/ContactFormProvider';
 
 
 
@@ -71,18 +70,6 @@ const App = (props) => {
     }, [errorMessage, successMessage]);
     
         const routerJSX = routes.map((item, index) => {
-            if(index === 1){
-                    <Route 
-                        key={index} 
-                        path={item.path} 
-                        render={(props) => (
-                            <ContactFormProvider>
-                                <item.component {...props}/>
-                            </ContactFormProvider>
-                        )}
-                        exact={item.exact} 
-                    />
-            }  
             return (
                 <Route 
                     key={index} 

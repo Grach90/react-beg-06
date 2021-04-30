@@ -2,7 +2,6 @@ import { connect } from "react-redux";
 import {useEffect} from "react";
 import Task from "./Task/Task";
 import {Row, Col, Button} from "react-bootstrap";
-// import ModalAddTask from "./AddTask/ModalAddTask";
 import ModalAddTaskWithRedux from "./AddTask/ModalAddTaskWithRedux";
 import ConfirmModl from "./Confirm/ConfirmModal";
 import Spiner from '../Spiner/Spiner';

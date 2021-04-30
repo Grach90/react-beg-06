@@ -4,7 +4,7 @@ import {useEffect} from "react";
 import {Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
-import ModalAddTask from "../ToDo/AddTask/ModalAddTask";
+import ModalAddTaskWithRedux from "../ToDo/AddTask/ModalAddTaskWithRedux";
 import PropTypes from "prop-types";
 import Spiner from '../Spiner/Spiner';
 import types from '../../Redux/actionTypes';
@@ -20,8 +20,10 @@ const SingleTaskWithRedux = (props) => {
     handleCloseModal
   } = props;
   
+  console.log(singleTask);
+
   useEffect(() => {
-    getSingleTask(props.match.params, props.history.push);
+    getSingleTask(props.match.params);
     return () => {
       resetState();
     }
@@ -32,7 +34,7 @@ const SingleTaskWithRedux = (props) => {
       <div className={style.singleTask}>
           <div> Title: {singleTask.title}</div>
           <div>Description: {singleTask.description}</div>
-          <div>Date: {singleTask.date.slice(0, 10)}</div>
+          {/* <div>Date: {singleTask.date.toISOString().slice(0, 10)}</div> */}
           <div style={{marginTop: "20px"}}>
             <Button onClick={() => removeTask(singleTask, props.history)} variant="primary">
                 <FontAwesomeIcon icon={faTrash} />
@@ -43,9 +45,9 @@ const SingleTaskWithRedux = (props) => {
             <Button onClick={() => props.history.goBack()}>Go Back</Button>
           </div>
           {loading && <Spiner />}
-          {isModalAddTask || <ModalAddTask 
+          {isModalAddTask || <ModalAddTaskWithRedux 
           handleCloseModal= {handleCloseModal}
-          editTask= {singleTask}
+          editableTask= {singleTask}
           handleEditTask= {handleEditTask}
           />}
       </div>
@@ -67,8 +69,8 @@ const mapDispatchToProps = (dispatch) => {
       },
       handleEditTask: (singleTask) => {
         dispatch((dispatch) => handleEditSingleTaskThunk(dispatch, singleTask));
-      },
-      getSingleTask: (params, history) => dispatch((dispatch) => getsingleTaskThunk(dispatch, params, history))
+      }, 
+      getSingleTask: (params) => dispatch((dispatch) => getsingleTaskThunk(dispatch, params))
     }
 }
 SingleTaskWithRedux.propTypes = {

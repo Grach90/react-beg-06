@@ -9,9 +9,12 @@ const singleTaskReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.EDIT_SINGLETASK:
             {
+                let { singleTask } = action;
+                // singleTask.date = typeof(singleTask.date) === 'string' ? singleTask.date : dateFormator(singleTask.date);
+                // // console.log(singleTask.date.slice(0, 10));
                 return {
                     ...state,
-                    singleTask: action.singleTask
+                    singleTask
                 }
             }
         case types.CLOSE_SINGLETASK_MODAL:

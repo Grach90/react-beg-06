@@ -2,7 +2,6 @@ import types from './actionTypes';
 import dateFormator from '../helpers/dateformator';
 const API_HOST = process.env.REACT_APP_API_URL;
 
-console.log(process.env.REACT_APP_API_URL);
 export const handleEditTaskThunk = (dispatch, editTableTask) => {
     dispatch({ type: types.SET_LOADING });
     fetch(`${API_HOST}/task/${editTableTask._id}`, {
@@ -161,7 +160,7 @@ export const handleEditSingleTaskThunk = (dispatch, singleTask) => {
     })();
 }
 
-export const getsingleTaskThunk = (dispatch, params, history) => {
+export const getsingleTaskThunk = (dispatch, params) => {
     const { id } = params;
     fetch(`${API_HOST}/task/${id}`)
         .then(response => response.json())
