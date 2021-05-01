@@ -3,7 +3,7 @@
 
 const About = () => {
   return (
-    <div className={style.div}>
+    <div >
       <h1>About</h1>
     </div>
   )

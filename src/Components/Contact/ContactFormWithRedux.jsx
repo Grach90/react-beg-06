@@ -56,7 +56,7 @@ const ContactFormWithRedux = (props) => {
             rows={input.rows || undefined}
             as={input.as || undefined}
           />
-          <Form.Text className={style.formText}> {formData[input.name].error} </Form.Text>
+          <Form.Text > {formData[input.name].error} </Form.Text>
         </Form.Group>
       )
     });
@@ -69,7 +69,7 @@ const ContactFormWithRedux = (props) => {
   
     return (
       <>
-        <Form className ={style.form} onSubmit={(e) => e.preventDefault()} >
+        <Form  onSubmit={(e) => e.preventDefault()} >
           {inputsJSX}
           <Button 
             variant="primary" 

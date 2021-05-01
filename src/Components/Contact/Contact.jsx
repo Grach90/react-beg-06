@@ -1,9 +1,9 @@
-import style from "./contact.module.css";
+// import style from "./contact.module.css";
 import ContactFormWithRedux from './ContactFormWithRedux';
 
-function Contact(props){
+function Contact(){
   return (
-    <div className={style.body}>
+    <div >
       <h1>Contact Form</h1>
       <ContactFormWithRedux />
     </div>
