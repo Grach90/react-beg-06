@@ -31,7 +31,7 @@ let inputs = [
 const ContactFormWithRedux = (props) => {
   let { state: {
     formData,
-    errorMessage,
+    // errorMessage,
     loading
     },
     change,
