@@ -6,7 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 //Components
 // import ToDo from "./Components/ToDo/ToDo";
 import ToDoWithRedux from "./Components/ToDo/ToDoWithRedux";
-import Navbar from "./Components/Navbar/Navbar.jsx";
+// import Navbar from "./Components/Navbar/Navbar.jsx";
+import Menu from "./Components/Navbar/Menu.jsx";
 import Contact from "./Components/Contact/Contact";
 import About from "./Components/About/About";
 import NotFound from "./Components/NotFound/NotFound.jsx";
@@ -46,6 +47,7 @@ const routes = [
     }
 ]
 
+
 const App = (props) => {
     const {errorMessage, successMessage} = props;
     useEffect(()=> {
@@ -81,7 +83,7 @@ const App = (props) => {
         })
         return(
             <div className="App">
-                <Navbar />
+                <Menu />
                 <Switch>
                     {routerJSX}
                     <Redirect to="/error/404" />
