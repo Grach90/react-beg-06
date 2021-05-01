@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {connect} from 'react-redux';
 import {Form, Button} from "react-bootstrap";
-// import style from "./contact.module.css";
+import style from "./contact.module.css";
 import {withRouter} from "react-router-dom";
 import Spiner from "../Spiner/Spiner";
 import types from '../../Redux/actionTypes';
@@ -56,7 +56,7 @@ const ContactFormWithRedux = (props) => {
             rows={input.rows || undefined}
             as={input.as || undefined}
           />
-          <Form.Text > {formData[input.name].error} </Form.Text>
+          <Form.Text className={style.formText}> {formData[input.name].error} </Form.Text>
         </Form.Group>
       )
     });
@@ -69,7 +69,7 @@ const ContactFormWithRedux = (props) => {
   
     return (
       <>
-        <Form  onSubmit={(e) => e.preventDefault()} >
+        <Form className ={style.form} onSubmit={(e) => e.preventDefault()} >
           {inputsJSX}
           <Button 
             variant="primary" 
