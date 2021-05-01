@@ -1,9 +1,9 @@
-import style from "./about.module.css";
+import styles from "./about.module.css";
 
 
 const About = () => {
   return (
-    <div className={style.div}>
+    <div className={styles.div}>
       <h1>About</h1>
     </div>
   )
