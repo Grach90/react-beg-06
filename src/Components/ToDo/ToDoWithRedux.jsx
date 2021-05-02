@@ -72,35 +72,31 @@ const ToDoWithRedux = (props) => {
 
   return ( 
     <div className={style.mainDiv}>
-        <Col>
-          <Search />
-        </Col>
-        <Row className="justify-content-center mt-3">
+       <Search />
+        <Row className={style.buttonsRow}>
         <Button onClick={() => openModal()} disabled= {!!markedTasks.size}>
             Add Task
         </Button>
-        </Row>
-        <Row className="justify-content-center">
-        {tasks.length !== 0 ? tasksJSX : "There are not tasks"}
-        </Row>
-        <Row className="mt-5 justify-content-center">
-            <Button disabled={!tasks.length || !!!markedTasks.size} 
+        <Button disabled={!tasks.length || !!!markedTasks.size} 
             onClick={toggleConfirmModal} 
-            className="mr-5" variant="danger"
+            className="mr-5 ml-5" variant="danger"
             >
             Delete
             </Button>
             <Button disabled={!tasks.length} onClick={markAllTasks} variant="primary">
                 {tasks.length === markedTasks.size ? "Remove Checks" : "Check All"}
             </Button>
-            </Row>
-            {loading && <Spiner />}
-            {isAddEditModal || <ModalAddTaskWithRedux 
-                handleCloseModal= {closeModal}
-                getValueAddTask= {addTask} 
-                editableTask= {editTask}
-                handleEditTask= {handleEditTask}
-            />} 
+        </Row>
+        <Row className={style.tasksRow}>
+          {tasks.length !== 0 ? tasksJSX : "There are not tasks"}
+        </Row>
+        {loading && <Spiner />}
+        {isAddEditModal || <ModalAddTaskWithRedux 
+            handleCloseModal= {closeModal}
+            getValueAddTask= {addTask} 
+            editableTask= {editTask}
+            handleEditTask= {handleEditTask}
+        />} 
         {isConfirmModal || <ConfirmModl
         removeMarkedTasks= {() => removeMarkedTasks(markedTasks)}
         toggleConfirmModal= {toggleConfirmModal}

@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css";
+import style from './menu.module.css';
 import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { ReactComponent as Logo } from "./logo.svg";
 
@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 export default function Menu() {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="" bg="dark" variant="dark" className={style.navbar} >
       <Navbar.Brand href="/">
         <Logo
           alt=""
@@ -15,7 +15,7 @@ export default function Menu() {
           height="30"
           className="d-inline-block align-top"
         />
-        Dice Roller
+        My first React Project
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">

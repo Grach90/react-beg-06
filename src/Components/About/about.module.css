@@ -1,4 +1,16 @@
-.div {
-    background-color: grey;
-    height: 700px;
+.div2 {
+    position: relative;
+    top: 100px;
+}
+
+.div2 h1 {
+    font-size: 3.5rem;
+    font-style: italic;
+    text-shadow: 7px 0 5px black;
+    color: white;
+}
+
+.div1 {
+    background-color: #262626;
+    height: 800px;
 }

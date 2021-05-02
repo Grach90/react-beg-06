@@ -80,7 +80,7 @@ useEffect(() => {
   }
 }, [])
   return (
-      <Form className={style.Form}>
+    <div>
       <InputGroup className="mb-3">
             <Form.Control 
               value={searchState.search}
@@ -94,7 +94,7 @@ useEffect(() => {
               Search
             </Button>
       </InputGroup>
-      <Row className='justify-content-center mb-3'>
+      <Row className='justify-content-center'>
       <DropdownButton  
         className='mr-3' 
         variant='info' 
@@ -109,25 +109,17 @@ useEffect(() => {
         {sortJSX}
       </DropdownButton>
       </Row>
-      <Row>
-        <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Create_lte</Form.Label>
-          <DatePicker selected={searchState.create_lte} onChange={(date) => setDate(date, 'create_lte')} />
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Create_gte</Form.Label>
-          <DatePicker selected={searchState.create_gte} onChange={(date) => setDate(date, 'create_gte')} />
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Complete_lte</Form.Label>
-          <DatePicker selected={searchState.complete_lte} onChange={(date) => setDate(date, 'complete_lte')} />
-        </Form.Group>
-        <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Complete_gte</Form.Label>
-          <DatePicker selected={searchState.complete_gte} onChange={(date) => setDate(date, 'complete_gte')} />
-        </Form.Group>
-      </Row>
-      </Form>
+      <div className={style.dateRow}>
+        <Row className='flex-column align-content-center'>
+            <h4>Create_lte</h4> <DatePicker selected={searchState.create_lte} onChange={(date) => setDate(date, 'create_lte')} />
+            Create_gte <DatePicker selected={searchState.create_gte} onChange={(date) => setDate(date, 'create_gte')} />
+        </Row>
+        <Row className='flex-column align-content-center'>
+            Complete_lte <DatePicker selected={searchState.complete_lte} onChange={(date) => setDate(date, 'complete_lte')} />
+            Complete_gte <DatePicker selected={searchState.complete_gte} onChange={(date) => setDate(date, 'complete_gte')} />
+        </Row>
+      </div>
+    </div>
   )
 }
 
