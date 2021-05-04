@@ -1,6 +1,19 @@
 .Form {
-    max-width: 1100px;
-    background-color: #353C0B;
+    max-width: 900px;
+    background-color: #ffffff;
     border-radius: 20px;
-    margin-bottom: 20px;
+    margin: 20px auto;
+}
+
+.datePicker {
+    color: rgb(0, 0, 0);
+}
+
+.input {
+    background-color: #F0F2F5 !important;
+}
+
+.buttons {
+    /* background-color: #45BD62 !important; */
+    margin-left: 25px;
 }

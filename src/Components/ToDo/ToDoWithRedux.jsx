@@ -8,6 +8,7 @@ import Spiner from '../Spiner/Spiner';
 import style from './ToDo.module.css';
 import types from './../../Redux/actionTypes';
 import Search from '../Search/Search';
+import Zoom from 'react-reveal/Bounce';
 import {handleEditTaskThunk, 
   removeMarkedTasksthunk, 
   addTaskThunk, 
@@ -72,18 +73,23 @@ const ToDoWithRedux = (props) => {
 
   return ( 
     <div className={style.mainDiv}>
+        <h1 className={style.reveal}>
+          <Zoom left cascade >
+            T O D O   L I S T
+          </Zoom>
+        </h1>
        <Search />
         <Row className={style.buttonsRow}>
-        <Button onClick={() => openModal()} disabled= {!!markedTasks.size}>
+        <Button  onClick={() => openModal()} disabled= {!!markedTasks.size}>
             Add Task
         </Button>
         <Button disabled={!tasks.length || !!!markedTasks.size} 
             onClick={toggleConfirmModal} 
-            className="mr-5 ml-5" variant="danger"
+            className="mr-5 ml-5" variant="dark" variant='danger'
             >
             Delete
             </Button>
-            <Button disabled={!tasks.length} onClick={markAllTasks} variant="primary">
+            <Button disabled={!tasks.length} onClick={markAllTasks} >
                 {tasks.length === markedTasks.size ? "Remove Checks" : "Check All"}
             </Button>
         </Row>

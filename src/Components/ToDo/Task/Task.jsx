@@ -28,23 +28,23 @@ function Task({
                 checked={cheked}
                 />
             </Row>
-            <Row className="justify-content-center mb-1">
+            <Row className="justify-content-center pb-3">
                <Link to={`/task/${task._id}`} > Title: {task.title} </Link>
             </Row>
-            <Row className="justify-content-center mb-1">
+            <Row className="justify-content-center pb-3">
                 Discription: {task.description}
             </Row>
-            <Row className="justify-content-center mb-1">
+            <Row className="justify-content-center pb-3">
                 Date: {task.date.slice(0, 10)}
             </Row>
-            <Row className="justify-content-center">
+            <Row className={style.buttonsRow}>
                 <Button disabled= {isEmptyMarkedTasks} onClick={handleRemoveTask} variant="primary">
                     <FontAwesomeIcon icon={faTrash} />
                 </Button>
-                <Button onClick= {() => handleOpenEditTaskModal(task)} disabled= {isEmptyMarkedTasks} variant="danger" className="ml-3">
+                <Button onClick= {() => handleOpenEditTaskModal(task)} disabled= {isEmptyMarkedTasks} variant="danger" className={style.buttons}>
                     <FontAwesomeIcon icon={faEdit} />
                 </Button>
-                <Button onClick={() => handleActiveTask(task)} className="ml-3" variant="info">
+                <Button className={style.buttons} onClick={() => handleActiveTask(task)} variant="info">
                 {task.status === "active" && <FontAwesomeIcon icon={faHourglassHalf} />}
                 {task.status === "done" && <FontAwesomeIcon icon={faCheck} />}
                 </Button>

@@ -1,13 +1,25 @@
 .singleTask {
+    position: absolute;
     width: 40%;
-    margin: 70px auto 0px;
-    background-color: rgba(221, 115, 28, 0.3);
+    background-color: #ffffff;
     border-radius: 15px;
-    box-shadow: 0px 5px 10px 10px rgba(158, 235, 16, 0.548);
-    padding: 50px;
-    color: white;
+    box-shadow: 0px 3px 70px 3px #1877F2;
+    padding-top: 50px;
+    color: rgb(0, 0, 0);
     font-size: 22px;
     align-content: flex-start;
+    top: 160px;
+    left: 50%;
+    transform: translate(-50%);
+    height: 400px;
+}
+
+.main {
+    position: relative;
+    min-height: 100vh;
+    background-color: #DFE2E5;
+    padding: 20px;
+    border-top: solid 2px #61DAFB;
 }
 
 .singleTask div {
@@ -19,4 +31,23 @@
     width: 90%;
     height: 90%;
     background-color: rgba(214, 181, 132, 0.7);
+}
+
+.reveal {
+    font: italic bold 80px 'Times New Roman';
+    color: #BFC3C6;
+    text-shadow: 7px 0 5px #1877F2;
+}
+
+.data {
+    font: italic bold 35px 'Times New Roman';
+    text-shadow: 7px 0 5px #0798ff47;
+    margin-bottom: 20px;
+}
+
+.buttons {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translate(-50%);
 }

@@ -1,14 +1,23 @@
 .container {
+    position: relative;
     display: table;
-    width: 300px;
+    width: 250px;
     height: 300px;
-    border: 5px solid rgb(49, 48, 48);
-    background-color: #353C0B;
-    color: white;
+    background-color: #bfc3c6;
+    color: rgb(0, 0, 0);
     font-size: 20px;
     margin-top: 50px;
+    border-radius: 0 20px 20px 20px;
 }
 
-.task {
-    text-align: center;
+.buttons {
+    /* background-color: #1F2605 !important;
+    border: none; */
+    margin-left: 40px;
+}
+
+.buttonsRow {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
 }

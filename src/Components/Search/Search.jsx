@@ -86,9 +86,10 @@ useEffect(() => {
               value={searchState.search}
               onChange={onChangeInputSearch}
               placeholder='Search'
+              className={style.input}
             />
             <Button 
-              className='ml-3'
+              className={style.buttons}
               onClick={() => handleSubmit(searchState)}
             >
               Search
@@ -96,35 +97,36 @@ useEffect(() => {
       </InputGroup>
       <Row className='justify-content-center mb-3'>
       <DropdownButton  
-        className='mr-3' 
-        variant='info' 
+        className={style.buttons} 
+        variant='success' 
         title={searchState.status || 'Status'}
       >
         {statusJSX}
       </DropdownButton>
       <DropdownButton 
-        variant='info' 
+        className={style.buttons}
+        variant='success' 
         title={searchState.sort || 'Sort'}
       >
         {sortJSX}
       </DropdownButton>
       </Row>
-      <Row>
+      <Row className={style.datePicker}>
         <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Create_lte</Form.Label>
-          <DatePicker selected={searchState.create_lte} onChange={(date) => setDate(date, 'create_lte')} />
+          <Form.Label>Create(lte)</Form.Label>
+          <DatePicker className={style.input} selected={searchState.create_lte} onChange={(date) => setDate(date, 'create_lte')} />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Create_gte</Form.Label>
-          <DatePicker selected={searchState.create_gte} onChange={(date) => setDate(date, 'create_gte')} />
+          <Form.Label>Create(gte)</Form.Label>
+          <DatePicker className={style.input} selected={searchState.create_gte} onChange={(date) => setDate(date, 'create_gte')} />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Complete_lte</Form.Label>
-          <DatePicker selected={searchState.complete_lte} onChange={(date) => setDate(date, 'complete_lte')} />
+          <Form.Label>Complete(lte)</Form.Label>
+          <DatePicker className={style.input} selected={searchState.complete_lte} onChange={(date) => setDate(date, 'complete_lte')} />
         </Form.Group>
         <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>Complete_gte</Form.Label>
-          <DatePicker selected={searchState.complete_gte} onChange={(date) => setDate(date, 'complete_gte')} />
+          <Form.Label>Complete(gte)</Form.Label>
+          <DatePicker className={style.input} selected={searchState.complete_gte} onChange={(date) => setDate(date, 'complete_gte')} />
         </Form.Group>
       </Row>
       </Form>

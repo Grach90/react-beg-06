@@ -110,7 +110,7 @@ export const subMitThunk = (dispatch, formData, history) => {
             if (data.error) throw data.error;
             dispatch({ type: types.SET_LOADING });
             history.replace("/");
-            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Datas have been sent success!' });
+            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Datas have been sent successfully!' });
         })
         .catch(error => {
             console.log("Error", error);
@@ -151,7 +151,7 @@ export const handleEditSingleTaskThunk = (dispatch, singleTask) => {
             if (data.error) throw data.error;
             dispatch({ type: types.EDIT_SINGLETASK, singleTask: data });
             dispatch({ type: types.CLOSE_SINGLETASK_MODAL });
-            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Task has been edited success!' });
+            dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Task has been edited successfully!' });
         } catch (error) {
             dispatch({ type: types.SET_ERRORMESSAGE, errorMessage: error.message });
         } finally {

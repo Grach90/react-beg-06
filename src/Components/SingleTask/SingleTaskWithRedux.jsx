@@ -8,6 +8,7 @@ import ModalAddTaskWithRedux from "../ToDo/AddTask/ModalAddTaskWithRedux";
 import PropTypes from "prop-types";
 import Spiner from '../Spiner/Spiner';
 import types from '../../Redux/actionTypes';
+import Zoom from 'react-reveal/Bounce';
 import {removeSingleTaskThunk, handleEditSingleTaskThunk, getsingleTaskThunk} from '../../Redux/action';
 
 const SingleTaskWithRedux = (props) => {
@@ -31,11 +32,17 @@ const SingleTaskWithRedux = (props) => {
   
   if(!singleTask) return <Spiner />
   return (
+    <div className={style.main}>
+      <h1 className={style.reveal}>
+          <Zoom left cascade >
+            S I N G L E   T A S K
+          </Zoom>
+        </h1>
       <div className={style.singleTask}>
-          <div> Title: {singleTask.title}</div>
-          <div>Description: {singleTask.description}</div>
-          {/* <div>Date: {singleTask.date.toISOString().slice(0, 10)}</div> */}
-          <div style={{marginTop: "20px"}}>
+          <div className={style.data}> Title: {singleTask.title}</div>
+          <div className={style.data}>Description: {singleTask.description}</div>
+          {/* <div className={style.data}>Date: {singleTask.date.toISOString().slice(0, 10)}</div> */}
+          <div className={style.buttons}>
             <Button onClick={() => removeTask(singleTask, props.history)} variant="primary">
                 <FontAwesomeIcon icon={faTrash} />
             </Button>
@@ -51,6 +58,7 @@ const SingleTaskWithRedux = (props) => {
           handleEditTask= {handleEditTask}
           />}
       </div>
+    </div>
   )
 }
 

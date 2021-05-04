@@ -6,6 +6,7 @@ import {withRouter} from "react-router-dom";
 import Spiner from "../Spiner/Spiner";
 import types from '../../Redux/actionTypes';
 import {subMitThunk} from '../../Redux/action';
+import Zoom from 'react-reveal/Bounce';
 
 
 let inputs = [
@@ -68,10 +69,15 @@ const ContactFormWithRedux = (props) => {
   
     return (
       <>
+        <h1 className={style.reveal}>
+          <Zoom left cascade >
+            C O N T A C T   F O R M
+          </Zoom>
+        </h1>
         <Form className ={style.form} onSubmit={(e) => e.preventDefault()} >
           {inputsJSX}
           <Button 
-            variant="primary" 
+            className={style.button} 
             type="submit" 
             onClick={() => handleSubMit(formData, props.history)}
             disabled={valid}
