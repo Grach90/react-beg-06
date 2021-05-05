@@ -4,7 +4,7 @@ import {useEffect} from "react";
 import {Button} from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
-import ModalAddTaskWithRedux from "../ToDo/AddTask/ModalAddTaskWithRedux";
+import ModalAddTask from "../ToDo/AddTask/ModalAddTask";
 import PropTypes from "prop-types";
 import Spiner from '../Spiner/Spiner';
 import types from '../../Redux/actionTypes';
@@ -20,8 +20,6 @@ const SingleTaskWithRedux = (props) => {
     getSingleTask,
     handleCloseModal
   } = props;
-  
-  console.log(singleTask);
 
   useEffect(() => {
     getSingleTask(props.match.params);
@@ -41,7 +39,7 @@ const SingleTaskWithRedux = (props) => {
       <div className={style.singleTask}>
           <div className={style.data}> Title: {singleTask.title}</div>
           <div className={style.data}>Description: {singleTask.description}</div>
-          {/* <div className={style.data}>Date: {singleTask.date.toISOString().slice(0, 10)}</div> */}
+          <div className={style.data}>Date: {singleTask.date.slice(0, 10)}</div>
           <div className={style.buttons}>
             <Button onClick={() => removeTask(singleTask, props.history)} variant="primary">
                 <FontAwesomeIcon icon={faTrash} />
@@ -52,9 +50,9 @@ const SingleTaskWithRedux = (props) => {
             <Button onClick={() => props.history.goBack()}>Go Back</Button>
           </div>
           {loading && <Spiner />}
-          {isModalAddTask || <ModalAddTaskWithRedux 
+          {isModalAddTask || <ModalAddTask 
           handleCloseModal= {handleCloseModal}
-          editableTask= {singleTask}
+          editTask= {singleTask}
           handleEditTask= {handleEditTask}
           />}
       </div>

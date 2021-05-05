@@ -1,16 +1,13 @@
-.div2 {
-    position: relative;
+.main {
+    min-height: 100vh;
+    background-color: #DFE2E5;
+    border-top: solid 2px #61DAFB;
+}
+
+.foto {
+    height: 660px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
     top: 100px;
-}
-
-.div2 h1 {
-    font-size: 3.5rem;
-    font-style: italic;
-    text-shadow: 7px 0 5px black;
-    color: white;
-}
-
-.div1 {
-    background-color: #262626;
-    height: 800px;
 }
