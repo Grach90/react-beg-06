@@ -1,11 +1,10 @@
 .main {
-    min-height: 100vh;
     background-color: #DFE2E5;
     border-top: solid 2px #61DAFB;
 }
 
 .foto {
-    height: 660px;
+    height: 1000px;
     position: absolute;
     left: 50%;
     transform: translate(-50%);
