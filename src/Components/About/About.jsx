@@ -1,5 +1,5 @@
 import styles from "./about.module.css";
-import foto from '../../images/CV_Nalbandyan.png';
+import foto from '../../images/CV_Nalbandyan.jpg';
 
 
 

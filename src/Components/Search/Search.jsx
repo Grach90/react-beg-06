@@ -87,6 +87,7 @@ useEffect(() => {
               onChange={onChangeInputSearch}
               placeholder='Search'
               className={style.input}
+              onKeyPress={({key}) => key === 'Enter' ? handleSubmit(searchState) : ''}
             />
             <Button 
               className={style.buttons}
@@ -110,6 +111,13 @@ useEffect(() => {
       >
         {sortJSX}
       </DropdownButton>
+      <Button
+        className='ml-4'
+        variant='secondary'
+        onClick={resetState}
+      >
+        Reset
+      </Button>
       </Row>
       <Row className={style.datePicker}>
         <Form.Group as={Col} controlId="formGridCity">

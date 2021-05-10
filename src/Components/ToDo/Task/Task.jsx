@@ -32,7 +32,7 @@ function Task({
                <Link to={`/task/${task._id}`} > Title: {task.title} </Link>
             </Row>
             <Row className="justify-content-center pb-3">
-                Discription: {task.description}
+                Description: {task.description}
             </Row>
             <Row className="justify-content-center pb-3">
                 Date: {task.date.slice(0, 10)}
