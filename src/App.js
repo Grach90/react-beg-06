@@ -16,14 +16,28 @@ import NotFound from "./Components/NotFound/NotFound.jsx";
 // import SingleTaskProvider from './Context/Providers/SingleTaskProvider';
 // import SingleTaskWithReduce from './Components/SingleTask/SingleTaskWithReduce';
 import SingleTaskWithRedux from './Components/SingleTask/SingleTaskWithRedux';
-
-
+import Login from './Components/Login/Login';
+import Register from './Components/Register/Register';
+import Footer from './Components/Footer/Footer';
 
 const routes = [
     {
+        path: "/login",
+        component: Login,
+        exact: true,
+        type: 'public'
+    },
+    {
+        path: "/register",
+        component: Register,
+        exact: true,
+        type: 'public'
+    },
+    {
         path: '/',
         component: ToDoWithRedux,
-        exact: true
+        exact: true,
+        type: 'private'
     },
     {
         path: '/contact',
@@ -38,7 +52,8 @@ const routes = [
     {
         path: "/task/:id",
         component: SingleTaskWithRedux,
-        exact: true
+        exact: true,
+        type: 'private'
     },
     {
         path: "/error/:status",
@@ -49,7 +64,7 @@ const routes = [
 
 
 const App = (props) => {
-    const {errorMessage, successMessage} = props;
+    const {errorMessage, successMessage, isAuthenticated} = props;
     useEffect(()=> {
         errorMessage &&  toast.error(errorMessage, {
             position: "bottom-left",
@@ -71,13 +86,22 @@ const App = (props) => {
             });
     }, [errorMessage, successMessage]);
     
-        const routerJSX = routes.map((item, index) => {
+        const routerJSX = routes.map((Item, i) => {
+            const Component = Item.component;
             return (
                 <Route 
-                    key={index} 
-                    path={item.path} 
-                    component={item.component} 
-                    exact={item.exact} 
+                    key={i} 
+                    path={Item.path} 
+                    exact={Item.exact} 
+                    render={ (props) => {
+                        if(isAuthenticated && Item.type === 'public'){
+                            return <Redirect to='/'/>
+                        }
+                        if(!isAuthenticated && Item.type === 'private'){
+                            return <Redirect to='/login'/>
+                        }
+                        return <Component {...props}/>
+                    }}
                 />
             )
         })
@@ -88,6 +112,7 @@ const App = (props) => {
                     {routerJSX}
                     <Redirect to="/error/404" />
                 </Switch>
+                <Footer />
                 <ToastContainer />
             </div>
         )
@@ -95,7 +120,8 @@ const App = (props) => {
 }  
 const mapStateToProps = (state) => ({
     errorMessage: state.globalState.errorMessage,
-    successMessage: state.globalState.successMessage
+    successMessage: state.globalState.successMessage,
+    isAuthenticated: state.globalState.isAuthenticated
 })
 
 export default connect(mapStateToProps, null)(App);

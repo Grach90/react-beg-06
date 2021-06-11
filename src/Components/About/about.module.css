@@ -4,9 +4,16 @@
 }
 
 .foto {
-    height: 1600px;
-    position: absolute;
+    margin-top: 10px;
+    height: 1400px;
+    position: relative;
     left: 50%;
     transform: translate(-50%);
-    top: 100px;
+    top: 20px;
+    margin-top: 70px;
+}
+
+.main div {
+    position: relative;
+    min-height: 1510px;
 }

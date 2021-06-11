@@ -1,0 +1,40 @@
+@media (prefers-reduced-motion: no-preference) {
+    .Applogo {
+        animation: App-logo-spin infinite 10s linear;
+    }
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.brand {
+    padding-right: 12px;
+    background-color: #dfe2e5;
+    border-radius: 100px;
+}
+
+.InputGroup {
+    width: unset;
+}
+
+.InputGroup p {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.button {
+    margin-right: 10px;
+}
+
+.navbar {
+    background-color: #01213a !important;
+    position: fixed;
+    width: -webkit-fill-available;
+    z-index: 1000;
+}

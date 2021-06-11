@@ -3,7 +3,7 @@ import style from './search.module.css';
 import DatePicker from "react-datepicker";
 import {connect} from 'react-redux';
 import types from '../../Redux/actionTypes';
-import {handleSubmitThunk} from '../../Redux/action';
+import {searchThunk} from '../../Redux/action';
 import {useEffect} from 'react';
 
 const Search = (props) => {
@@ -152,7 +152,7 @@ const mapStateToDispatch = (dispatch) => {
     onChangeDropdown: (name, value) => dispatch({type: types.DROP_DOWN_ONCHANGE, name, value}),
     setDate: (date, name) => dispatch({type: types.SET_SEARCH_DATE, date, name}),
     handleSubmit: (searchState) => {
-      dispatch((dispatch) => handleSubmitThunk(dispatch, searchState));
+      dispatch((dispatch) => searchThunk(dispatch, searchState));
     },
     resetState: () => dispatch({type: types.RESET_SEARCH_STATE})
   }

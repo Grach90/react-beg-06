@@ -3,7 +3,9 @@ import types from '../actionTypes';
 const initialState = {
     loading: false,
     errorMessage: '',
-    successMessage: ''
+    successMessage: '',
+    isAuthenticated: localStorage.getItem('token'),
+    userInfo: localStorage.getItem('userName')
 }
 
 const globalReducer = (state = initialState, action) => {
@@ -30,6 +32,24 @@ const globalReducer = (state = initialState, action) => {
                 return {
                     ...state,
                     successMessage: action.successMessage
+                }
+            }
+        case types.LOG_IN:
+            {
+                return {
+                    ...state,
+                    isAuthenticated: action.dataLogin,
+                    userInfo: action.dataUser.name
+                }
+            }
+        case types.LOG_OUT:
+            {
+                localStorage.removeItem('token');
+                localStorage.removeItem('userName');
+                return {
+                    ...state,
+                    isAuthenticated: false,
+                    userInfo: ''
                 }
             }
         default:

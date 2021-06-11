@@ -120,7 +120,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getTask: () => { 
+    getTask: (isAuthenticated) => { 
       dispatch((dispatch) => useEffectTrunk(dispatch));
     },
     remov_eTask: (task) => {

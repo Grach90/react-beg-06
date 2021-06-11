@@ -1,0 +1,15 @@
+.main {
+    background-color: #01213a;
+    display: flex;
+    justify-content: space-evenly;
+    height: 40px;
+}
+
+.foto {
+    width: 20px;
+    height: 20px;
+}
+
+.icon {
+    margin-top: 10px;
+}

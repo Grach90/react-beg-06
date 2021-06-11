@@ -6,6 +6,8 @@ import globalReducer from './Reducers/globalReducer';
 import contactFormReducer from './Reducers/contactFormReducer';
 import ModalAddTaskReducer from './Reducers/modalAddTaskReducer';
 import searchReducer from './Reducers/searchReducer';
+import registerReducer from './Reducers/registerReducer';
+import loginReducer from './Reducers/loginReducer';
 
 const reducer = combineReducers({
     toDoState: toDoReducer,
@@ -13,7 +15,9 @@ const reducer = combineReducers({
     globalState: globalReducer,
     contactFormState: contactFormReducer,
     moadalAddTaskState: ModalAddTaskReducer,
-    searchState: searchReducer
+    searchState: searchReducer,
+    registerState: registerReducer,
+    loginState: loginReducer
 })
 
 const store = createStore(reducer, applyMiddleware(thunk));
