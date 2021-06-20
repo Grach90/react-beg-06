@@ -72,7 +72,7 @@ export const removeTaskThunk = async(dispatch, deleteTask) => {
     const token = await getToken();
     dispatch({ type: types.SET_LOADING });
     fetch(`${API_HOST}/task/${deleteTask._id}`, {
-            method: 'GET',
+            method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -81,6 +81,7 @@ export const removeTaskThunk = async(dispatch, deleteTask) => {
         .then(res => res.json())
         .then(data => {
             if (data.error) throw data.error;
+            console.log(data);
             dispatch({ type: types.REMOVE_TASK, deleteTask });
             dispatch({ type: types.SET_SUCCSSES_MESSAGE, successMessage: 'Task has been deleted success!' });
         })

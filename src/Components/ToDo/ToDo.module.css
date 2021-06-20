@@ -1,19 +1,13 @@
 .mainDiv {
     background-color: #dfe2e5;
     padding: 20px;
-    min-height: 100vh;
+    min-height: 94.8vh;
     border-top: solid 2px #61DAFB;
 }
 
 .tasksRow {
-    max-width: 900px;
-    margin: 0 auto;
-    background-color: #ffffff;
-    border-radius: 0 0 20px 20px;
-    padding-bottom: 20px;
-    color: white;
-    justify-content: center;
-    box-shadow: 0px 3px 70px 3px #003a84;
+    margin-bottom: 20px;
+    min-width: 100%;
 }
 
 .buttonsRow {
@@ -21,20 +15,51 @@
     background-color: #ffffff;
     margin: 0px auto;
     max-width: 900px;
-    padding-top: 20px;
+    padding: 20px;
     justify-content: center;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
 }
 
-
-/* .buttons {
-    background-color: #353C0B !important;
-    border: none;
-} */
+.pagination {
+    min-width: 100%;
+    justify-content: center;
+    margin-top: 20px;
+}
 
 .reveal {
     font: italic bold 80px 'Times New Roman';
     color: #BFC3C6;
     text-shadow: 7px 0 5px #003a84;
     margin-top: 70px;
+}
+
+.tasksCol {
+    display: flex;
+    justify-content: center;
+}
+
+.pageLink {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    margin-left: 13px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+}
+
+.pageLink a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.pageLink:hover {
+    background-color: whitesmoke;
 }

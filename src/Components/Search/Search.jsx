@@ -80,7 +80,7 @@ useEffect(() => {
   }
 }, [])
   return (
-      <Form className={style.Form}>
+      <Form className={style.form}>
       <InputGroup className="mb-3">
             <Form.Control 
               value={searchState.search}

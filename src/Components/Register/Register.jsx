@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import style from './register.module.css';
 import Zoom from 'react-reveal/Bounce';
 import { Form, Button } from 'react-bootstrap';
@@ -35,13 +36,19 @@ const inputs = [
 ]
 const Register = (props) => {
 
-  const {handleChange, formData, handleSubMit} = props;
+  const {handleChange, formData, handleSubMit, resetState} = props;
 
   let valid = false;
   for(let item in formData){
     if(formData[item].valid) 
     valid = true; 
   }
+
+  useEffect(()=> {
+    return ()=> {
+      resetState();
+    }
+  }, []);
   
   const inputsJSX = inputs.map((input, index) => {
     return (
@@ -93,7 +100,8 @@ const mapDispatchToProps = (dispatch) => {
     handleChange: (e) => dispatch({type: types.HANDLE_CHANGE_REGISTER, e}),
     handleSubMit: (formData, history) => {
       dispatch((dispatch) => registerThunk(dispatch, formData, history));
-    }
+    },
+    resetState: () => dispatch({type: types.RESET_REGISTER_STATE})
   }
 }
 

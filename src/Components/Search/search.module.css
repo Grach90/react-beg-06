@@ -1,4 +1,5 @@
-.Form {
+.form {
+    padding: 30px;
     max-width: 900px;
     background-color: #ffffff;
     border-radius: 20px;
@@ -14,6 +15,5 @@
 }
 
 .buttons {
-    /* background-color: #45BD62 !important; */
     margin-left: 25px;
 }

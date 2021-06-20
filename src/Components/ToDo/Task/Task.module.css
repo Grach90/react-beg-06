@@ -6,13 +6,11 @@
     background-color: #bfc3c6;
     color: rgb(0, 0, 0);
     font-size: 20px;
-    margin-top: 50px;
+    margin: 50px 0;
     border-radius: 0 20px 20px 20px;
 }
 
 .buttons {
-    /* background-color: #1F2605 !important;
-    border: none; */
     margin-left: 40px;
 }
 

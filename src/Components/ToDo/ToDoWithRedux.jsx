@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import Task from "./Task/Task";
 import {Row, Col, Button} from "react-bootstrap";
 import ModalAddTaskWithRedux from "./AddTask/ModalAddTaskWithRedux";
+import {Link, Redirect} from 'react-router-dom';
 import ConfirmModl from "./Confirm/ConfirmModal";
 import Spiner from '../Spiner/Spiner';
 import style from './ToDo.module.css';
@@ -40,9 +41,10 @@ const ToDoWithRedux = (props) => {
     openEditTaskModal,
     edit_Task,
     resetToDoState,
-    handleActiveTask
+    handleActiveTask,
+    location
   } = props;
-
+  
   const handleEditTask = (editTableTask) => {
     edit_Task(editTableTask, tasks);
   }
@@ -54,23 +56,49 @@ const ToDoWithRedux = (props) => {
     }
   }, []);
 
+  const page = [];
+  for(let i = 0; i < Math.ceil(tasks.length/6); i++){
+        page.push(
+          <Row key={i} className={style.pageLink}>
+            <Link to={`/${i+1}`}>
+              {i+1}
+            </Link>
+          </Row>
+        )
+     }
+
+     if(loading) return <Spiner />
+
   const isAddEditModal = (isModalEditTask===false || isModalAddTask===false) ? false : true;
-  const tasksJSX = tasks.map(task => {
-      return (
-          <Col key={task._id}>
+  const path = +location.pathname.slice(1);
+  if(!Number.isInteger(path) || (path === 0 || path > page.length)) return <Redirect to='/1'/>
+
+  const tasksJSX = [];
+  const length = tasks.length > 6 * path ? 6 * path : tasks.length;
+
+  const index =  path === 0 ? 0
+  : (tasks.length > 6 && (tasks.length % 6 === 0 || path === 1)) ? path * 6 - 6 
+  : tasks.length > 6 ? 6 * (path-1)
+  : 0;
+
+  for(let i = index; i < length; i++){
+    tasksJSX.push(
+          <Col key={tasks[i]._id} className={style.tasksCol}>
               <Task 
-              task={task}
+              task={tasks[i]}
+              cheked={!!markedTasks.has(tasks[i]._id)}
               removeTask= {remov_eTask}
               handleMarkedTasks={chekedTasks}
-              cheked={!!markedTasks.has(task._id)}
               isEmptyMarkedTasks= {!!markedTasks.size}
               handleOpenEditTaskModal= {openEditTaskModal}
               handleActiveTask={handleActiveTask}
                 />
           </Col>
       )
-  })
+  }
 
+  
+  
   return ( 
     <div className={style.mainDiv}>
         <h1 className={style.reveal}>
@@ -80,11 +108,12 @@ const ToDoWithRedux = (props) => {
         </h1>
        <Search />
         <Row className={style.buttonsRow}>
-        <Button  onClick={() => openModal()} disabled= {!!markedTasks.size}>
-            Add Task
-        </Button>
-        <Button disabled={!tasks.length || !!!markedTasks.size} 
-            onClick={toggleConfirmModal} 
+          <Row>
+            <Button  onClick={() => openModal()} disabled= {!!markedTasks.size}>
+                Add Task
+            </Button>
+            <Button disabled={!tasks.length || !!!markedTasks.size} 
+                onClick={toggleConfirmModal} 
             className="mr-5 ml-5" variant="dark" variant='danger'
             >
             Delete
@@ -92,11 +121,16 @@ const ToDoWithRedux = (props) => {
             <Button disabled={!tasks.length} onClick={markAllTasks} >
                 {tasks.length === markedTasks.size ? "Remove Checks" : "Check All"}
             </Button>
+          </Row>
+          <Row className={style.pagination}>
+            {page}
+          </Row>
+           
+          <Row className={style.tasksRow}>
+            {tasks.length !== 0 ? tasksJSX : "There are not tasks"}
+          </Row>
+          {page}
         </Row>
-        <Row className={style.tasksRow}>
-          {tasks.length !== 0 ? tasksJSX : "There are not tasks"}
-        </Row>
-        {loading && <Spiner />}
         {isAddEditModal || <ModalAddTaskWithRedux 
             handleCloseModal= {closeModal}
             getValueAddTask= {addTask} 
@@ -120,7 +154,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getTask: (isAuthenticated) => { 
+    getTask: () => { 
       dispatch((dispatch) => useEffectTrunk(dispatch));
     },
     remov_eTask: (task) => {

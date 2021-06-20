@@ -3,18 +3,11 @@ import {connect} from 'react-redux';
 import {Switch, Route, Redirect} from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-//Components
-// import ToDo from "./Components/ToDo/ToDo";
 import ToDoWithRedux from "./Components/ToDo/ToDoWithRedux";
-// import Navbar from "./Components/Navbar/Navbar.jsx";
 import Menu from "./Components/Navbar/Menu.jsx";
 import Contact from "./Components/Contact/Contact";
 import About from "./Components/About/About";
 import NotFound from "./Components/NotFound/NotFound.jsx";
-// import SingleTask from "./Components/SingleTask/SingleTask";
-// import SingleTaskWithContext from './Components/SingleTask/SingleTaskWithContext';
-// import SingleTaskProvider from './Context/Providers/SingleTaskProvider';
-// import SingleTaskWithReduce from './Components/SingleTask/SingleTaskWithReduce';
 import SingleTaskWithRedux from './Components/SingleTask/SingleTaskWithRedux';
 import Login from './Components/Login/Login';
 import Register from './Components/Register/Register';
@@ -52,6 +45,12 @@ const routes = [
     {
         path: "/task/:id",
         component: SingleTaskWithRedux,
+        exact: true,
+        type: 'private'
+    },
+    {
+        path: "/:id",
+        component: ToDoWithRedux,
         exact: true,
         type: 'private'
     },
