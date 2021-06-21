@@ -9,10 +9,10 @@ export const getToken = () => {
 
     if (token) {
         const parsed = jwt_decode(JSON.parse(token).jwt);
-        if (parsed.exp - new Date().getTime() / 1000 < 590) {
+        if (parsed.exp - new Date().getTime() / 1000 < 60) {
 
             const refreshToken = JSON.parse(token).refreshToken;
-
+            console.log(parsed.userId);
             return fetch(`${API_HOST}/user/${parsed.userId}/token`, {
                 method: 'PUT',
                 body: JSON.stringify({ refreshToken }),
