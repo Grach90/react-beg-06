@@ -71,7 +71,10 @@ const ToDoWithRedux = (props) => {
 
   const isAddEditModal = (isModalEditTask===false || isModalAddTask===false) ? false : true;
   const path = +location.pathname.slice(1);
-  if(!Number.isInteger(path) || (path === 0 || path > page.length)) return <Redirect to='/1'/>
+
+  if(tasks.length !== 0){ 
+     if(!Number.isInteger(path) || (path === 0 || path > page.length)) return <Redirect to='/1'/>
+  }
 
   const tasksJSX = [];
   const length = tasks.length > 6 * path ? 6 * path : tasks.length;
