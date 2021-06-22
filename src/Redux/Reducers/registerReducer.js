@@ -34,7 +34,7 @@ function getInitialState() {
 }
 
 const minLength4 = minLength(4);
-const maxLength22 = maxLength(22);
+const maxLength30 = maxLength(30);
 const minLengthPassword = minLength(6);
 
 const registerReducer = (state = getInitialState(), action) => {
@@ -45,7 +45,7 @@ const registerReducer = (state = getInitialState(), action) => {
                 const { name, value } = action.e.target;
 
                 const error = (name === 'password' && minLengthPassword(value)) ||
-                    isRequired(value) || minLength4(value) || maxLength22(value) ||
+                    isRequired(value) || minLength4(value) || maxLength30(value) ||
                     (name === 'email' && validetEmail(value) ||
                         (name === 'confirmPassword' && formData.password.value !== value && 'password does not match'))
 
